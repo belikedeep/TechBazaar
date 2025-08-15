@@ -30,8 +30,8 @@ _A focused checklist for building an impressive e-commerce portfolio project usi
 
 - [x] Choose lightweight database (MongoDB/SQLite/PostgreSQL)
 - [x] Set up database connection
-- [ ] Create basic schema/models
-- [ ] Add sample data seeding script
+- [x] Create basic schema/models
+- [x] Add sample data seeding script
 
 ### Essential Models
 
