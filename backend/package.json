@@ -10,10 +10,17 @@
     "dev": "nodemon src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["node", "express", "typescript"],
+  "keywords": [
+    "node",
+    "express",
+    "typescript"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/eslint": "^9.6.1",
+    "dotenv": "^17.2.1",
+    "eslint": "^9.33.0",
     "express": "^5.1.0"
   },
   "devDependencies": {
