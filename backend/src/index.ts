@@ -1,4 +1,7 @@
 import express from 'express';
+import 'dotenv/config'
+import dotenv from 'dotenv'
+import mongoose from 'mongoose';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -6,6 +9,11 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+dotenv.config()
+
+mongoose.connect(process.env.MONGO_URI as string).
+  then(() => { console.log("MongoDB Connected") })
+  .catch(err => console.log("MongoDb Connection issue"))
 
 // Routes
 app.get('/', (req, res) => {

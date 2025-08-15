@@ -1,10 +1,11 @@
 # TechBazar E-commerce Portfolio Project Checklist
 
-*A focused checklist for building an impressive e-commerce portfolio project using Node.js + Vite with TypeScript*
+_A focused checklist for building an impressive e-commerce portfolio project using Node.js + Vite with TypeScript_
 
 ## 🚀 Project Setup & Configuration
 
 ### Backend Setup (Node.js + TypeScript)
+
 - [x] Initialize Node.js project with TypeScript
 - [x] Configure `tsconfig.json` for backend
 - [x] Set up package.json with dev/build scripts
@@ -14,6 +15,7 @@
 - [x] Configure CORS for frontend connection
 
 ### Frontend Setup (Vite + TypeScript)
+
 - [x] Initialize Vite project with TypeScript
 - [x] Configure `vite.config.ts`
 - [x] Set up React/Vue with TypeScript
@@ -25,12 +27,14 @@
 ## 🗄️ Database & Models (Keep It Simple)
 
 ### Database Setup
-- [ ] Choose lightweight database (MongoDB/SQLite/PostgreSQL)
-- [ ] Set up database connection
+
+- [x] Choose lightweight database (MongoDB/SQLite/PostgreSQL)
+- [x] Set up database connection
 - [ ] Create basic schema/models
 - [ ] Add sample data seeding script
 
 ### Essential Models
+
 - [ ] User model (id, name, email, password, role)
 - [ ] Product model (id, name, description, price, image, category, stock)
 - [ ] Category model (id, name, description)
@@ -40,6 +44,7 @@
 ## 🔐 Authentication (Portfolio Focus)
 
 ### User Management
+
 - [ ] User registration with validation
 - [ ] User login with JWT tokens
 - [ ] Password hashing (bcrypt)
@@ -51,6 +56,7 @@
 ## 🛍️ Core E-commerce Features (Portfolio Essentials)
 
 ### Product Management
+
 - [ ] Display products with pagination
 - [ ] Product detail page with image gallery
 - [ ] Basic search functionality
@@ -60,6 +66,7 @@
 - [ ] Admin CRUD for products (showcase full-stack skills)
 
 ### Shopping Cart
+
 - [ ] Add/remove items from cart
 - [ ] Update quantities
 - [ ] Cart persistence (localStorage + database)
@@ -68,6 +75,7 @@
 - [ ] Guest cart support
 
 ### Order System (Simplified)
+
 - [ ] Basic checkout process
 - [ ] Order creation and storage
 - [ ] Order history for users
@@ -75,6 +83,7 @@
 - [ ] Basic order management for admin
 
 ### Payment (Mock Implementation)
+
 - [ ] Mock payment gateway integration
 - [ ] Payment form with validation
 - [ ] Success/failure payment flow
@@ -84,6 +93,7 @@
 ## 🎨 Frontend Components & Pages (Portfolio Showcase)
 
 ### Core Pages
+
 - [ ] Landing page with hero section and featured products
 - [ ] Product catalog with filtering/search
 - [ ] Product detail page with image carousel
@@ -94,6 +104,7 @@
 - [ ] Login/Register pages with forms
 
 ### Key Components (Show React/Vue Skills)
+
 - [ ] Reusable ProductCard component
 - [ ] Navigation header with cart counter
 - [ ] Search bar with suggestions
@@ -105,6 +116,7 @@
 - [ ] Image carousel component
 
 ### Admin Panel (Showcase Full-Stack)
+
 - [ ] Admin dashboard with statistics
 - [ ] Product management (CRUD operations)
 - [ ] Order management interface
@@ -114,6 +126,7 @@
 ## 📧 Basic Communication
 
 ### Email (Optional but Impressive)
+
 - [ ] Set up Nodemailer with Gmail/Outlook
 - [ ] Welcome email on registration
 - [ ] Order confirmation email
@@ -122,12 +135,14 @@
 ## 🔍 Search & Filtering (Show Technical Skills)
 
 ### Search Implementation
+
 - [ ] Text-based product search
 - [ ] Search suggestions/autocomplete
 - [ ] Search result highlighting
 - [ ] No results found handling
 
 ### Filtering & Sorting
+
 - [ ] Filter by category
 - [ ] Filter by price range
 - [ ] Filter by availability
@@ -137,6 +152,7 @@
 ## 📱 Responsive Design (Essential for Portfolio)
 
 ### UI/UX Implementation
+
 - [ ] Mobile-first responsive design
 - [ ] Clean, modern UI design
 - [ ] Smooth animations and transitions
@@ -148,6 +164,7 @@
 ## 🧪 Testing (Show Best Practices)
 
 ### Basic Testing
+
 - [ ] API endpoint testing (Jest/Supertest)
 - [ ] Component unit tests (Jest/Vitest + Testing Library)
 - [ ] Integration tests for key user flows
@@ -156,6 +173,7 @@
 ## 🚀 Deployment (Portfolio Must-Have)
 
 ### Deployment Setup
+
 - [ ] Deploy backend to Railway/Render/Heroku
 - [ ] Deploy frontend to Vercel/Netlify
 - [ ] Set up environment variables in production
@@ -163,6 +181,7 @@
 - [ ] Set up basic monitoring/error tracking
 
 ### Performance & Optimization
+
 - [ ] Bundle optimization with Vite
 - [ ] Image optimization
 - [ ] Basic SEO meta tags
@@ -171,6 +190,7 @@
 ## 📊 Portfolio Enhancement Features
 
 ### Impressive Additions
+
 - [ ] Dark/Light theme toggle
 - [ ] Real-time stock updates
 - [ ] Wishlist functionality
@@ -182,6 +202,7 @@
 - [ ] Email notifications for order status
 
 ### Technical Showcase
+
 - [ ] TypeScript throughout the codebase
 - [ ] Clean, organized code structure
 - [ ] Error handling and validation
@@ -193,6 +214,7 @@
 ## 📋 Portfolio-Specific Final Touches
 
 ### Code Quality & Documentation
+
 - [ ] Clean, commented code
 - [ ] README with project setup instructions
 - [ ] API documentation (basic)
@@ -202,6 +224,7 @@
 - [ ] Technology stack documentation
 
 ### GitHub Repository Setup
+
 - [ ] Well-organized repository structure
 - [ ] Meaningful commit messages
 - [ ] Feature branches and proper Git workflow
@@ -209,6 +232,7 @@
 - [ ] Issues and pull requests (if team project)
 
 ### Live Demo Features
+
 - [ ] Seeded database with sample products
 - [ ] Demo admin and customer accounts
 - [ ] Sample orders and transactions
@@ -219,6 +243,7 @@
 ## 🎯 Portfolio Project Scope Notes
 
 ### Focus Areas for Recruiters
+
 - **Full-Stack Skills**: Complete CRUD operations, API design, database integration
 - **Frontend Skills**: Component architecture, state management, responsive design
 - **Backend Skills**: RESTful APIs, authentication, data modeling
@@ -226,6 +251,7 @@
 - **Code Quality**: Clean code, error handling, validation
 
 ### Keep Minimal But Complete
+
 - Don't over-engineer - focus on core functionality working well
 - Prioritize clean, maintainable code over complex features
 - Ensure the entire user journey works smoothly
@@ -233,6 +259,7 @@
 - Document your code and decisions
 
 ### Time Management (Typical 2-4 week timeline)
+
 - **Week 1**: Project setup, basic models, authentication
 - **Week 2**: Core product features, shopping cart
 - **Week 3**: Frontend components, admin panel
