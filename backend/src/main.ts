@@ -1,8 +1,7 @@
 import express from 'express';
 import 'dotenv/config'
 import dotenv from 'dotenv'
-import mongoose from 'mongoose';
-import User from './models/User';
+import { connectDB } from './db/dbConnect';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,9 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 dotenv.config()
 
-mongoose.connect(process.env.MONGO_URI as string).
-  then(() => { console.log("MongoDB Connected") })
-  .catch(err => console.log("MongoDb Connection issue"))
+await connectDB();
 
 // Routes
 app.get('/', (req, res) => {
@@ -41,33 +38,6 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
     message: err.message
   });
 });
-
-app.post("/users", async (req, res) => {
-  try {
-    const { name, email, password } = req.body
-
-    const newUser = new User({ name, email, password })
-    const savedUser = await newUser.save();
-
-    res.status(201).json(savedUser);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      message: error instanceof Error ? error.message : 'Server Error'
-    });
-  }
-})
-
-app.get('/users', async (req, res, next) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (error) {
-    next(error);
-  }
-});
-
 
 // Start server
 app.listen(PORT, () => {

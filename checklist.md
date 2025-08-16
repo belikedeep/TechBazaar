@@ -35,11 +35,11 @@ _A focused checklist for building an impressive e-commerce portfolio project usi
 
 ### Essential Models
 
-- [ ] User model (id, name, email, password, role)
-- [ ] Product model (id, name, description, price, image, category, stock)
-- [ ] Category model (id, name, description)
-- [ ] Cart/CartItem model
-- [ ] Order model (basic order tracking)
+- [x] User model (id, name, email, password, role)
+- [x] Product model (id, name, description, price, image, category, stock)
+- [x] Category model (id, name, description)
+- [x] Cart/CartItem model
+- [x] Order model (basic order tracking)
 
 ## 🔐 Authentication (Portfolio Focus)
 
