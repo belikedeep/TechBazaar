@@ -45,10 +45,10 @@ _A focused checklist for building an impressive e-commerce portfolio project usi
 
 ### User Management
 
-- [ ] User registration with validation
-- [ ] User login with JWT tokens
-- [ ] Password hashing (bcrypt)
-- [ ] Protected routes middleware
+- [x] User registration with validation
+- [x] User login with JWT tokens
+- [x] Password hashing (bcrypt)
+- [x] Protected routes middleware
 - [ ] Basic user profile management
 - [ ] Admin/Customer role distinction
 - [ ] Logout functionality

@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-dotenv.config()
+import { registerRoutes } from "./routes";
 
 await connectDB();
 
@@ -29,6 +29,9 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
+
+// Register all routes
+registerRoutes(app);
 
 // Error handling middleware
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
