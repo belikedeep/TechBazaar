@@ -70,18 +70,18 @@ _A focused checklist for building an impressive e-commerce portfolio project usi
 
 #### Order Management APIs
 
-- [ ] POST `/api/orders` - Create new order
-- [ ] GET `/api/orders` - Get user's orders
-- [ ] GET `/api/orders/:id` - Get specific order details
-- [ ] PUT `/api/orders/:id/status` - Update order status (Admin)
-- [ ] GET `/api/admin/orders` - Get all orders (Admin)
+- [x] POST `/api/orders` - Create new order
+- [x] GET `/api/orders` - Get user's orders
+- [x] GET `/api/orders/:id` - Get specific order details
+- [x] PUT `/api/orders/:id/status` - Update order status (Admin)
+- [x] GET `/api/admin/orders` - Get all orders (Admin)
 
 #### User Management APIs
 
-- [ ] GET `/api/users/profile` - Get user profile
-- [ ] PUT `/api/users/profile` - Update user profile
-- [ ] GET `/api/admin/users` - Get all users (Admin)
-- [ ] PUT `/api/admin/users/:id/role` - Update user role (Admin)
+- [x] GET `/api/users/profile` - Get user profile
+- [x] PUT `/api/users/profile` - Update user profile
+- [x] GET `/api/admin/users` - Get all users (Admin)
+- [x] PUT `/api/admin/users/:id/role` - Update user role (Admin)
 
 ### 💳 Payment Integration (Mock)
 
