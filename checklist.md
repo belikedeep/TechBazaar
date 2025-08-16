@@ -1,10 +1,14 @@
 # TechBazar E-commerce Portfolio Project Checklist
 
+## Backend & Frontend Separated Development Guide
+
 _A focused checklist for building an impressive e-commerce portfolio project using Node.js + Vite with TypeScript_
 
-## 🚀 Project Setup & Configuration
+---
 
-### Backend Setup (Node.js + TypeScript)
+## 🔧 **BACKEND DEVELOPMENT (Node.js + TypeScript)**
+
+### 🚀 Initial Backend Setup & Configuration
 
 - [x] Initialize Node.js project with TypeScript
 - [x] Configure `tsconfig.json` for backend
@@ -14,26 +18,16 @@ _A focused checklist for building an impressive e-commerce portfolio project usi
 - [x] Set up Express.js server with basic middleware
 - [x] Configure CORS for frontend connection
 
-### Frontend Setup (Vite + TypeScript)
+### 🗄️ Database & Data Layer
 
-- [x] Initialize Vite project with TypeScript
-- [x] Configure `vite.config.ts`
-- [x] Set up React/Vue with TypeScript
-- [x] Install Tailwind CSS or similar framework
-- [x] Set up React Router/Vue Router
-- [x] Configure Axios for API calls
-- [x] Set up basic state management (Context API/Pinia)
-
-## 🗄️ Database & Models (Keep It Simple)
-
-### Database Setup
+#### Database Setup
 
 - [x] Choose lightweight database (MongoDB/SQLite/PostgreSQL)
 - [x] Set up database connection
 - [x] Create basic schema/models
 - [x] Add sample data seeding script
 
-### Essential Models
+#### Essential Models & Schemas
 
 - [x] User model (id, name, email, password, role)
 - [x] Product model (id, name, description, price, image, category, stock)
@@ -41,230 +35,348 @@ _A focused checklist for building an impressive e-commerce portfolio project usi
 - [x] Cart/CartItem model
 - [x] Order model (basic order tracking)
 
-## 🔐 Authentication (Portfolio Focus)
+### 🔐 Authentication & Authorization
 
-### User Management
-
-- [x] User registration with validation
-- [x] User login with JWT tokens
+- [x] User registration endpoint with validation
+- [x] User login endpoint with JWT tokens
 - [x] Password hashing (bcrypt)
-- [x] Protected routes middleware
-- [x] Basic user profile management
-- [x] Admin/Customer role distinction
-- [x] Logout functionality
+- [x] JWT middleware for protected routes
+- [x] Role-based access control (Admin/Customer)
+- [x] User profile CRUD endpoints
+- [x] Logout/token invalidation
+- [x] Password reset functionality (optional)
 
-## 🛍️ Core E-commerce Features (Portfolio Essentials)
+### 🛍️ Core API Endpoints
 
-### Product Management
+#### Product Management APIs
 
-- [ ] Display products with pagination
-- [ ] Product detail page with image gallery
-- [ ] Basic search functionality
-- [ ] Category-based filtering
-- [ ] Price range filtering
-- [ ] Sort by price/name/date
-- [ ] Admin CRUD for products (showcase full-stack skills)
+- [x] GET `/api/products` - Get all products with pagination
+- [x] GET `/api/products/:id` - Get single product details
+- [x] POST `/api/products` - Create product (Admin only)
+- [x] PUT `/api/products/:id` - Update product (Admin only)
+- [x] DELETE `/api/products/:id` - Delete product (Admin only)
+- [x] GET `/api/products/search` - Search products
+- [x] GET `/api/products/filter` - Filter by category/price
+- [x] GET `/api/categories` - Get all categories
 
-### Shopping Cart
+#### Cart Management APIs
 
-- [ ] Add/remove items from cart
-- [ ] Update quantities
-- [ ] Cart persistence (localStorage + database)
-- [ ] Cart total calculations
-- [ ] Clear cart functionality
-- [ ] Guest cart support
+- [ ] GET `/api/cart` - Get user's cart
+- [ ] POST `/api/cart/add` - Add item to cart
+- [ ] PUT `/api/cart/update` - Update cart item quantity
+- [ ] DELETE `/api/cart/remove/:itemId` - Remove item from cart
+- [ ] DELETE `/api/cart/clear` - Clear entire cart
+- [ ] POST `/api/cart/guest` - Handle guest cart operations
 
-### Order System (Simplified)
+#### Order Management APIs
 
-- [ ] Basic checkout process
-- [ ] Order creation and storage
-- [ ] Order history for users
-- [ ] Order status (Pending, Processing, Shipped, Delivered)
-- [ ] Basic order management for admin
+- [ ] POST `/api/orders` - Create new order
+- [ ] GET `/api/orders` - Get user's orders
+- [ ] GET `/api/orders/:id` - Get specific order details
+- [ ] PUT `/api/orders/:id/status` - Update order status (Admin)
+- [ ] GET `/api/admin/orders` - Get all orders (Admin)
 
-### Payment (Mock Implementation)
+#### User Management APIs
 
-- [ ] Mock payment gateway integration
-- [ ] Payment form with validation
-- [ ] Success/failure payment flow
-- [ ] Order confirmation after payment
-- [ ] **Note**: Use mock payment for portfolio (Stripe test mode)
+- [ ] GET `/api/users/profile` - Get user profile
+- [ ] PUT `/api/users/profile` - Update user profile
+- [ ] GET `/api/admin/users` - Get all users (Admin)
+- [ ] PUT `/api/admin/users/:id/role` - Update user role (Admin)
 
-## 🎨 Frontend Components & Pages (Portfolio Showcase)
+### 💳 Payment Integration (Mock)
 
-### Core Pages
+- [ ] POST `/api/payment/process` - Mock payment processing
+- [ ] POST `/api/payment/webhook` - Handle payment webhooks
+- [ ] GET `/api/payment/status/:orderId` - Check payment status
 
-- [ ] Landing page with hero section and featured products
-- [ ] Product catalog with filtering/search
-- [ ] Product detail page with image carousel
-- [ ] Shopping cart page
-- [ ] Checkout page with form validation
-- [ ] User dashboard/profile
-- [ ] Order history page
-- [ ] Login/Register pages with forms
-
-### Key Components (Show React/Vue Skills)
-
-- [ ] Reusable ProductCard component
-- [ ] Navigation header with cart counter
-- [ ] Search bar with suggestions
-- [ ] Filter sidebar component
-- [ ] Pagination component
-- [ ] Loading spinners and skeletons
-- [ ] Modal components
-- [ ] Form components with validation
-- [ ] Image carousel component
-
-### Admin Panel (Showcase Full-Stack)
-
-- [ ] Admin dashboard with statistics
-- [ ] Product management (CRUD operations)
-- [ ] Order management interface
-- [ ] User management panel
-- [ ] Simple analytics/charts
-
-## 📧 Basic Communication
-
-### Email (Optional but Impressive)
+### 📧 Email Services (Optional)
 
 - [ ] Set up Nodemailer with Gmail/Outlook
-- [ ] Welcome email on registration
-- [ ] Order confirmation email
+- [ ] Welcome email service
+- [ ] Order confirmation email service
+- [ ] Password reset email service
 - [ ] Basic email templates
 
-## 🔍 Search & Filtering (Show Technical Skills)
+### 🔍 Advanced Backend Features
 
-### Search Implementation
+- [ ] Full-text search implementation
+- [ ] Image upload handling (Multer/Cloudinary)
+- [ ] Data validation middleware
+- [ ] Rate limiting
+- [ ] Request logging
+- [ ] Error handling middleware
+- [ ] API documentation (Swagger/OpenAPI)
 
-- [ ] Text-based product search
-- [ ] Search suggestions/autocomplete
-- [ ] Search result highlighting
-- [ ] No results found handling
-
-### Filtering & Sorting
-
-- [ ] Filter by category
-- [ ] Filter by price range
-- [ ] Filter by availability
-- [ ] Sort by price, name, date added
-- [ ] Clear all filters option
-
-## 📱 Responsive Design (Essential for Portfolio)
-
-### UI/UX Implementation
-
-- [ ] Mobile-first responsive design
-- [ ] Clean, modern UI design
-- [ ] Smooth animations and transitions
-- [ ] Image optimization and lazy loading
-- [ ] Error states and empty states
-- [ ] Loading states for better UX
-- [ ] Accessibility basics (alt tags, semantic HTML)
-
-## 🧪 Testing (Show Best Practices)
-
-### Basic Testing
+### 🧪 Backend Testing
 
 - [ ] API endpoint testing (Jest/Supertest)
+- [ ] Database integration tests
+- [ ] Authentication middleware tests
+- [ ] Input validation tests
+- [ ] Error handling tests
+
+### 📊 Admin Dashboard APIs
+
+- [ ] GET `/api/admin/dashboard` - Dashboard statistics
+- [ ] GET `/api/admin/analytics` - Basic analytics data
+- [ ] GET `/api/admin/reports` - Sales reports
+
+---
+
+## 🎨 **FRONTEND DEVELOPMENT (Vite + TypeScript + React/Vue)**
+
+### 🚀 Initial Frontend Setup & Configuration
+
+- [x] Initialize Vite project with TypeScript
+- [x] Configure `vite.config.ts`
+- [x] Set up React/Vue with TypeScript
+- [x] Install Tailwind CSS or similar framework
+- [x] Set up React Router/Vue Router
+- [x] Configure Axios for API calls
+- [x] Set up basic state management (Context API/Pinia/Zustand)
+
+### 🏗️ State Management & Services
+
+#### State Management Setup
+
+- [ ] Authentication state management
+- [ ] Cart state management
+- [ ] Product catalog state
+- [ ] User profile state
+- [ ] Order history state
+- [ ] Loading/error states
+
+#### API Services Layer
+
+- [ ] Authentication service (login, register, logout)
+- [ ] Product service (fetch, search, filter)
+- [ ] Cart service (add, update, remove)
+- [ ] Order service (create, fetch history)
+- [ ] User service (profile management)
+- [ ] Admin service (product/order management)
+
+### 📱 Core Pages & Components
+
+#### Main Pages
+
+- [ ] **Landing/Home Page**
+  - Hero section with featured products
+  - Category showcase
+  - Recently added products
+- [ ] **Product Catalog Page**
+  - Product grid with pagination
+  - Search and filter sidebar
+  - Sort options
+- [ ] **Product Detail Page**
+  - Image carousel/gallery
+  - Product information
+  - Add to cart functionality
+  - Reviews section (optional)
+- [ ] **Shopping Cart Page**
+  - Cart items list
+  - Quantity controls
+  - Total calculations
+  - Proceed to checkout
+- [ ] **Checkout Page**
+  - Shipping information form
+  - Payment form (mock)
+  - Order summary
+  - Form validation
+
+#### User Pages
+
+- [ ] **Login/Register Pages**
+  - Form validation
+  - Error handling
+  - Redirect logic
+- [ ] **User Dashboard/Profile**
+  - Profile information
+  - Edit profile functionality
+- [ ] **Order History Page**
+  - Orders list
+  - Order details modal/page
+  - Order status tracking
+
+### 🧩 Reusable Components (Show React/Vue Skills)
+
+#### Product Components
+
+- [ ] ProductCard component
+- [ ] ProductGrid component
+- [ ] ProductCarousel component
+- [ ] ImageGallery component
+
+#### UI Components
+
+- [ ] Navigation header with cart counter
+- [ ] SearchBar with suggestions/autocomplete
+- [ ] FilterSidebar component
+- [ ] Pagination component
+- [ ] LoadingSpinner/Skeleton components
+- [ ] Modal/Dialog components
+- [ ] Toast/Notification system
+
+#### Form Components
+
+- [ ] FormInput with validation
+- [ ] FormSelect dropdown
+- [ ] FormCheckbox/Radio
+- [ ] FormButton with loading states
+
+### 👑 Admin Panel Frontend
+
+- [ ] **Admin Dashboard**
+  - Statistics cards
+  - Recent orders
+  - Low stock alerts
+  - Charts/graphs (optional)
+- [ ] **Product Management**
+  - Product list with CRUD operations
+  - Add/Edit product forms
+  - Image upload interface
+  - Bulk operations
+- [ ] **Order Management**
+  - Orders table with filters
+  - Order status updates
+  - Order details view
+- [ ] **User Management**
+  - Users table
+  - Role management
+  - User activity logs
+
+### 🔍 Advanced Frontend Features
+
+#### Search & Filtering
+
+- [ ] Real-time search with debouncing
+- [ ] Search suggestions/autocomplete
+- [ ] Advanced filtering (category, price, availability)
+- [ ] Sort functionality (price, name, date)
+- [ ] Filter/search result highlighting
+- [ ] Clear filters functionality
+
+#### User Experience Enhancements
+
+- [ ] Dark/Light theme toggle
+- [ ] Recently viewed products
+- [ ] Wishlist functionality
+- [ ] Product comparison feature
+- [ ] Infinite scroll or pagination
+- [ ] Image lazy loading
+- [ ] Smooth animations and transitions
+
+### 📱 Responsive Design & Accessibility
+
+- [ ] Mobile-first responsive design
+- [ ] Touch-friendly interface elements
+- [ ] Keyboard navigation support
+- [ ] Screen reader compatibility
+- [ ] Alt tags for all images
+- [ ] Semantic HTML structure
+- [ ] Color contrast compliance
+- [ ] Loading states for better UX
+
+### 🧪 Frontend Testing
+
 - [ ] Component unit tests (Jest/Vitest + Testing Library)
-- [ ] Integration tests for key user flows
-- [ ] Basic E2E tests for critical paths (optional)
+- [ ] Integration tests for user flows
+- [ ] Accessibility tests
+- [ ] Cross-browser compatibility
+- [ ] Responsive design tests
+- [ ] Basic E2E tests (Cypress/Playwright)
 
-## 🚀 Deployment (Portfolio Must-Have)
+---
 
-### Deployment Setup
+## 🚀 **DEPLOYMENT & DEVOPS**
 
-- [ ] Deploy backend to Railway/Render/Heroku
-- [ ] Deploy frontend to Vercel/Netlify
-- [ ] Set up environment variables in production
-- [ ] Configure database for production
-- [ ] Set up basic monitoring/error tracking
+### Backend Deployment
+
+- [ ] Deploy to Railway/Render/Heroku/DigitalOcean
+- [ ] Set up production environment variables
+- [ ] Configure production database
+- [ ] Set up SSL certificates
+- [ ] Configure logging and monitoring
+
+### Frontend Deployment
+
+- [ ] Deploy to Vercel/Netlify/AWS S3
+- [ ] Set up environment variables
+- [ ] Configure build optimization
+- [ ] Set up CDN for assets
+- [ ] Configure custom domain (optional)
 
 ### Performance & Optimization
 
 - [ ] Bundle optimization with Vite
-- [ ] Image optimization
-- [ ] Basic SEO meta tags
-- [ ] Loading performance optimization
-
-## 📊 Portfolio Enhancement Features
-
-### Impressive Additions
-
-- [ ] Dark/Light theme toggle
-- [ ] Real-time stock updates
-- [ ] Wishlist functionality
-- [ ] Product comparison feature
-- [ ] Recently viewed products
-- [ ] Customer reviews and ratings system
-- [ ] Advanced search with filters
-- [ ] Export orders to PDF/CSV
-- [ ] Email notifications for order status
-
-### Technical Showcase
-
-- [ ] TypeScript throughout the codebase
-- [ ] Clean, organized code structure
-- [ ] Error handling and validation
-- [ ] Secure API endpoints
-- [ ] Responsive design patterns
-- [ ] State management best practices
-- [ ] Database relationships and queries
-
-## 📋 Portfolio-Specific Final Touches
-
-### Code Quality & Documentation
-
-- [ ] Clean, commented code
-- [ ] README with project setup instructions
-- [ ] API documentation (basic)
-- [ ] Environment setup guide
-- [ ] Demo credentials for testing
-- [ ] Screenshots/GIFs for README
-- [ ] Technology stack documentation
-
-### GitHub Repository Setup
-
-- [ ] Well-organized repository structure
-- [ ] Meaningful commit messages
-- [ ] Feature branches and proper Git workflow
-- [ ] .gitignore properly configured
-- [ ] Issues and pull requests (if team project)
-
-### Live Demo Features
-
-- [ ] Seeded database with sample products
-- [ ] Demo admin and customer accounts
-- [ ] Sample orders and transactions
-- [ ] Responsive design showcase
-- [ ] Working search and filters
-- [ ] Complete user journey functional
-
-## 🎯 Portfolio Project Scope Notes
-
-### Focus Areas for Recruiters
-
-- **Full-Stack Skills**: Complete CRUD operations, API design, database integration
-- **Frontend Skills**: Component architecture, state management, responsive design
-- **Backend Skills**: RESTful APIs, authentication, data modeling
-- **Modern Tech Stack**: TypeScript, modern frameworks, deployment
-- **Code Quality**: Clean code, error handling, validation
-
-### Keep Minimal But Complete
-
-- Don't over-engineer - focus on core functionality working well
-- Prioritize clean, maintainable code over complex features
-- Ensure the entire user journey works smoothly
-- Make it visually appealing and professional
-- Document your code and decisions
-
-### Time Management (Typical 2-4 week timeline)
-
-- **Week 1**: Project setup, basic models, authentication
-- **Week 2**: Core product features, shopping cart
-- **Week 3**: Frontend components, admin panel
-- **Week 4**: Testing, deployment, documentation, polish
+- [ ] Image optimization and compression
+- [ ] API response caching
+- [ ] Database query optimization
+- [ ] SEO meta tags implementation
+- [ ] Lighthouse performance audit
 
 ---
 
-**Portfolio Project Goal**: Demonstrate full-stack development skills with a clean, functional e-commerce application that showcases modern web development practices.
+## 📋 **PORTFOLIO-SPECIFIC FINAL TOUCHES**
+
+### Code Quality & Documentation
+
+- [ ] Clean, well-commented codebase
+- [ ] Consistent coding standards
+- [ ] Comprehensive README with setup instructions
+- [ ] API documentation
+- [ ] Component documentation
+- [ ] Demo credentials for testing
+- [ ] Screenshots/GIFs for README
+
+### GitHub Repository Excellence
+
+- [ ] Well-organized mono/multi-repo structure
+- [ ] Meaningful commit messages
+- [ ] Feature branches and proper Git workflow
+- [ ] Proper .gitignore configuration
+- [ ] CI/CD pipeline setup (GitHub Actions)
+
+### Live Demo Preparation
+
+- [ ] Seeded database with realistic sample data
+- [ ] Demo admin and customer accounts
+- [ ] Sample transactions and order history
+- [ ] Complete user journey functionality
+- [ ] Mobile and desktop responsiveness
+- [ ] Error handling for all edge cases
+
+---
+
+## 🎯 **DEVELOPMENT TIMELINE (2-4 Weeks)**
+
+### Week 1: Backend Foundation
+
+- Database setup and models
+- Authentication system
+- Core API endpoints
+- Basic testing
+
+### Week 2: Frontend Foundation
+
+- Project setup and routing
+- State management
+- Core pages and components
+- API integration
+
+### Week 3: Advanced Features
+
+- Admin panel (both BE & FE)
+- Search and filtering
+- Cart and checkout flow
+- Testing and bug fixes
+
+### Week 4: Polish & Deployment
+
+- UI/UX improvements
+- Performance optimization
+- Deployment setup
+- Documentation and portfolio presentation
+
+---
+
+**Portfolio Project Goal**: Demonstrate full-stack development expertise with a clean, scalable, and feature-complete e-commerce application showcasing modern development practices and technical proficiency.
