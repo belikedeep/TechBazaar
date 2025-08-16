@@ -61,12 +61,12 @@ _A focused checklist for building an impressive e-commerce portfolio project usi
 
 #### Cart Management APIs
 
-- [ ] GET `/api/cart` - Get user's cart
-- [ ] POST `/api/cart/add` - Add item to cart
-- [ ] PUT `/api/cart/update` - Update cart item quantity
-- [ ] DELETE `/api/cart/remove/:itemId` - Remove item from cart
-- [ ] DELETE `/api/cart/clear` - Clear entire cart
-- [ ] POST `/api/cart/guest` - Handle guest cart operations
+- [x] GET `/api/cart` - Get user's cart
+- [x] POST `/api/cart/add` - Add item to cart
+- [x] PUT `/api/cart/update` - Update cart item quantity
+- [x] DELETE `/api/cart/remove/:itemId` - Remove item from cart
+- [x] DELETE `/api/cart/clear` - Clear entire cart
+- [x] POST `/api/cart/guest` - Handle guest cart operations
 
 #### Order Management APIs
 
