@@ -49,9 +49,9 @@ _A focused checklist for building an impressive e-commerce portfolio project usi
 - [x] User login with JWT tokens
 - [x] Password hashing (bcrypt)
 - [x] Protected routes middleware
-- [ ] Basic user profile management
-- [ ] Admin/Customer role distinction
-- [ ] Logout functionality
+- [x] Basic user profile management
+- [x] Admin/Customer role distinction
+- [x] Logout functionality
 
 ## 🛍️ Core E-commerce Features (Portfolio Essentials)
 

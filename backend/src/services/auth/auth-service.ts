@@ -38,3 +38,21 @@ export async function login({ email, password }: LoginInput) {
     const { password: _, ...userObj } = user.toObject();
     return { token, user: userObj };
 }
+export async function getProfile(userId: string) {
+    const user = await User.findById(userId).select("-password");
+    if (!user) throw new Error("User not found");
+    return user;
+}
+
+export async function updateProfile(userId: string, data: Partial<IUser>) {
+    const updateData: any = { ...data };
+    // Prevent email and role changes via this endpoint
+    delete updateData.email;
+    delete updateData.role;
+    if (updateData.password) {
+        updateData.password = await bcrypt.hash(updateData.password, 10);
+    }
+    const user = await User.findByIdAndUpdate(userId, updateData, { new: true }).select("-password");
+    if (!user) throw new Error("User not found or update failed");
+    return user;
+}

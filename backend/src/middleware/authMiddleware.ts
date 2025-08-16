@@ -24,3 +24,11 @@ export function authenticateJWT(req: AuthRequest, res: Response, next: NextFunct
         return res.status(401).json({ error: "Invalid token" });
     }
 }
+export function requireRole(...roles: string[]) {
+    return (req: AuthRequest, res: Response, next: NextFunction) => {
+        if (!req.user || !roles.includes(req.user.role)) {
+            return res.status(403).json({ error: "Forbidden: insufficient role" });
+        }
+        return next();
+    };
+}
