@@ -45,8 +45,8 @@ const UserDashboardPage: React.FC = () => {
                         <div>Shipping: {order.shippingAddress}</div>
                         <ul className="ml-4 mt-2">
                             {order.items.map((item, idx) => (
-                                <li key={item.productId + '-' + idx}>
-                                    {item.productId} x {item.quantity} @ ₹{item.price}
+                                <li key={item.product + '-' + idx}>
+                                    {item.product} x {item.quantity} @ ₹{item.price}
                                 </li>
                             ))}
                         </ul>
