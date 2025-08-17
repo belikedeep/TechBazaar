@@ -7,13 +7,18 @@ import { connectDB } from './db/dbConnect.js';
 import { registerRoutes } from './routes/index.js';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 // Middleware
+const ORIGIN_URL = process.env.ORIGIN_URL;
+if (!ORIGIN_URL) {
+  throw new Error("ORIGIN_URL environment variable is not set");
+}
 app.use(cors({
-  origin: 'http://localhost:5173', // Frontend URL
+  origin: ORIGIN_URL, // Frontend URL from env
   credentials: true
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

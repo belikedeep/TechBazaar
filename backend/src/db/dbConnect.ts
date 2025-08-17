@@ -7,25 +7,25 @@ export async function connectDB(): Promise<void> {
         await mongoose.connect(process.env.MONGO_URI as string);
         console.log("MongoDB Connected");
 
-        // In development, ensure a demo admin account exists.
-        const env = process.env.NODE_ENV || 'development';
-        if (env === 'development') {
-            const adminEmail = process.env.SEED_ADMIN_EMAIL || 'admin@techbazar.test';
-            const adminPassword = process.env.SEED_ADMIN_PASSWORD || 'Admin123!';
-            const adminName = process.env.SEED_ADMIN_NAME || 'Demo Admin';
+        const adminEmail = process.env.SEED_ADMIN_EMAIL;
+        const adminPassword = process.env.SEED_ADMIN_PASSWORD;
+        const adminName = process.env.SEED_ADMIN_NAME;
 
-            try {
-                const existing = await User.findOne({ email: adminEmail });
-                if (!existing) {
-                    const hashed = await bcrypt.hash(adminPassword, 10);
-                    await User.create({ name: adminName, email: adminEmail, password: hashed, role: 'admin' });
-                    console.log(`Created demo admin user: ${adminEmail}`);
-                } else {
-                    console.log(`Demo admin already exists: ${adminEmail}`);
-                }
-            } catch (seedErr) {
-                console.warn("Failed to ensure demo admin user:", seedErr);
+        if (!adminEmail || !adminPassword || !adminName) {
+            throw new Error("SEED_ADMIN_EMAIL, SEED_ADMIN_PASSWORD, and SEED_ADMIN_NAME must be set in environment variables.");
+        }
+
+        try {
+            const existing = await User.findOne({ email: adminEmail });
+            if (!existing) {
+                const hashed = await bcrypt.hash(adminPassword, 10);
+                await User.create({ name: adminName, email: adminEmail, password: hashed, role: 'admin' });
+                console.log(`Created demo admin user: ${adminEmail}`);
+            } else {
+                console.log(`Demo admin already exists: ${adminEmail}`);
             }
+        } catch (seedErr) {
+            console.warn("Failed to ensure demo admin user:", seedErr);
         }
     } catch (err) {
         console.log("MongoDb Connection issue");
