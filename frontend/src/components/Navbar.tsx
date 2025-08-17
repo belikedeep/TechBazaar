@@ -20,6 +20,11 @@ const Navbar: React.FC = () => {
             <div>
                 {isAuthenticated && user ? (
                     <div className="flex items-center gap-4">
+                        {user.role === "admin" && (
+                            <Link to="/admin" className="text-sm font-medium text-gray-700 hover:underline">
+                                Admin
+                            </Link>
+                        )}
                         <span className="text-base text-gray-700">Hello, {user.name || user.email}</span>
                         <button
                             onClick={handleLogout}

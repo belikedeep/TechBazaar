@@ -6,7 +6,8 @@ import {
     getUserProfileHandler,
     updateUserProfileHandler,
     getAllUsersHandler,
-    updateUserRoleHandler
+    updateUserRoleHandler,
+    deleteUserHandler
 } from "../../services/user/user-handlers";
 
 const router = Router();
@@ -22,5 +23,8 @@ router.get("/admin/users", authenticateJWT, requireRole("admin"), getAllUsersHan
 
 // PUT /api/admin/users/:id/role - Update user role (Admin)
 router.put("/admin/users/:id/role", authenticateJWT, requireRole("admin"), updateUserRoleHandler);
+
+// DELETE /api/admin/users/:id - Delete user (Admin)
+router.delete("/admin/users/:id", authenticateJWT, requireRole("admin"), deleteUserHandler);
 
 export default router;

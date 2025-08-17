@@ -21,3 +21,11 @@ export async function updateUserRole(userId: string, role: string) {
     if (!["customer", "admin"].includes(role)) throw new Error("Invalid role");
     return User.findByIdAndUpdate(userId, { role }, { new: true }).select("-password");
 }
+
+/**
+ * Delete a user by id (admin-only)
+ * Returns the deleted user document (without password) or null if not found.
+ */
+export async function deleteUser(userId: string) {
+    return User.findByIdAndDelete(userId).select("-password");
+}

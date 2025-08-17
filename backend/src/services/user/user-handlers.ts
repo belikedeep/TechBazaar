@@ -39,3 +39,16 @@ export async function updateUserRoleHandler(req: Request, res: Response) {
         res.status(400).json({ error: "Failed to update user role" });
     }
 }
+
+/**
+ * Delete user handler (admin only)
+ */
+export async function deleteUserHandler(req: Request, res: Response) {
+    try {
+        const user = await userService.deleteUser(req.params.id!);
+        if (!user) return res.status(404).json({ error: "User not found" });
+        res.json({ message: "User deleted", user });
+    } catch (err) {
+        res.status(400).json({ error: "Failed to delete user" });
+    }
+}
