@@ -61,6 +61,9 @@ const Navbar: React.FC = () => {
                         Login
                     </Link>
                 )}
+                <Link to="/profile" className="text-base font-medium text-blue-700 hover:underline">
+                    Profile
+                </Link>
             </div>
         </nav>
     );

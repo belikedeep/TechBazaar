@@ -14,6 +14,8 @@ import type { ReactNode } from "react";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
 import Navbar from "./components/Navbar";
+import CheckoutPage from "./pages/CheckoutPage";
+import UserDashboardPage from "./pages/UserDashboardPage";
 
 const PublicRoute = ({ children }: { children: ReactNode }) => {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -21,13 +23,29 @@ const PublicRoute = ({ children }: { children: ReactNode }) => {
 };
 
 const AdminRoute = ({ children }: { children: ReactNode }) => {
-  const { isAuthenticated, user } = useAuthStore();
+  const { isAuthenticated, user, loading } = useAuthStore();
+  if (loading) return null;
   if (!isAuthenticated) return <Navigate to="/login" replace />;
   if (!user || user.role !== "admin") return <Navigate to="/" replace />;
   return <>{children}</>;
 };
 
+import { useEffect } from "react";
+
 const App = () => {
+  const token = useAuthStore((s) => s.token);
+  const setToken = useAuthStore((s) => s.setToken);
+  const fetchProfile = useAuthStore((s) => s.fetchProfile);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken && !token) {
+      setToken(storedToken);
+      fetchProfile();
+    }
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <BrowserRouter>
       <Navbar />
@@ -70,6 +88,8 @@ const App = () => {
         {/* Product detail route */}
         <Route path="/products/:id" element={<ProductDetailPage />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/profile" element={<UserDashboardPage />} />
       </Routes>
     </BrowserRouter>
   );

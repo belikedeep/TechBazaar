@@ -2,7 +2,7 @@
 
 import type { Order } from "../types/order";
 
-const API_BASE = "/api/orders";
+const API_BASE = "http://localhost:3000/api/orders";
 
 export const orderService = {
     async getOrders(): Promise<Order[]> {
@@ -11,7 +11,12 @@ export const orderService = {
             headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error("Failed to fetch orders");
-        return res.json();
+        const data = await res.json();
+        // Map _id to id for all orders
+        return data.map((order: any) => ({
+            ...order,
+            id: order._id,
+        }));
     },
 
     async getOrderById(id: string): Promise<Order> {
@@ -20,7 +25,8 @@ export const orderService = {
             headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error("Failed to fetch order");
-        return res.json();
+        const order = await res.json();
+        return { ...order, id: order._id };
     },
 
     async createOrder(data: Partial<Order>): Promise<Order> {
@@ -34,7 +40,8 @@ export const orderService = {
             body: JSON.stringify(data),
         });
         if (!res.ok) throw new Error("Failed to create order");
-        return res.json();
+        const order = await res.json();
+        return { ...order, id: order._id };
     },
 
     async updateOrderStatus(id: string, status: string): Promise<Order> {
@@ -48,6 +55,7 @@ export const orderService = {
             body: JSON.stringify({ status }),
         });
         if (!res.ok) throw new Error("Failed to update order status");
-        return res.json();
+        const order = await res.json();
+        return { ...order, id: order._id };
     },
 };
