@@ -2,6 +2,7 @@
 
 import { Router } from "express";
 import { authenticateJWT, requireRole } from "../../middleware/authMiddleware";
+import multer from "multer";
 import {
     getAllProductsHandler,
     getProductByIdHandler,
@@ -9,10 +10,12 @@ import {
     updateProductHandler,
     deleteProductHandler,
     searchProductsHandler,
-    filterProductsHandler
+    filterProductsHandler,
+    uploadProductImageHandler
 } from "../../services/product/product-handlers";
 
 const router = Router();
+const upload = multer({ dest: "uploads/" });
 
 // GET /api/products - Get all products with pagination
 router.get("/", getAllProductsHandler);
@@ -28,6 +31,9 @@ router.put("/:id", authenticateJWT, requireRole("admin"), updateProductHandler);
 
 // DELETE /api/products/:id - Delete product (Admin only)
 router.delete("/:id", authenticateJWT, requireRole("admin"), deleteProductHandler);
+
+// POST /api/products/upload - Upload product image (Admin only)
+router.post("/upload", authenticateJWT, requireRole("admin"), upload.single("image"), uploadProductImageHandler);
 
 // GET /api/products/search - Search products
 router.get("/search", searchProductsHandler);

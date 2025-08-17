@@ -14,7 +14,8 @@ const ProductSchema: Schema = new Schema<IProduct>({
     name: { type: String, required: true, trim: true },
     description: { type: String, required: true, trim: true },
     price: { type: Number, required: true, min: 0 },
-    image: { type: String, required: true },
+    // Make image optional so product creation does not fail if no image uploaded yet.
+    image: { type: String, required: false, default: "" },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
     stock: { type: Number, required: true, min: 0 },
     createdAt: { type: Date, default: Date.now }

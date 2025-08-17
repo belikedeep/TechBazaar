@@ -1,4 +1,6 @@
 import Product from "../../db/schemas/products";
+import Category from "../../db/schemas/categories";
+import mongoose from "mongoose";
 
 export async function getAllProducts(query: any) {
     const { page = 1, limit = 10 } = query;
@@ -16,6 +18,23 @@ export async function getProductById(id: string) {
 }
 
 export async function createProduct(data: any) {
+    // Accept category as either an ObjectId string or a category name.
+    // If a name is supplied, resolve or create the category and set its ObjectId.
+    if (data.category && typeof data.category === "string") {
+        try {
+            if (!mongoose.Types.ObjectId.isValid(data.category)) {
+                let cat = await Category.findOne({ name: data.category });
+                if (!cat) {
+                    cat = await Category.create({ name: data.category });
+                }
+                data.category = cat._id;
+            }
+        } catch (err) {
+            // If resolving category fails, rethrow to surface validation to caller
+            throw err;
+        }
+    }
+
     const product = new Product(data);
     return product.save();
 }

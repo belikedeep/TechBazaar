@@ -6,6 +6,7 @@ import SignupPage from "./pages/SignupPage";
 import AdminLayout from "./pages/AdminLayout";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import ProductManagementPage from "./pages/ProductManagementPage";
+import ProductFormPage from "./pages/ProductFormPage";
 import OrderManagementPage from "./pages/OrderManagementPage";
 import UserManagementPage from "./pages/UserManagementPage";
 import { useAuthStore } from "./store/authStore";
@@ -56,6 +57,8 @@ const App = () => {
         >
           <Route index element={<AdminDashboardPage />} />
           <Route path="products" element={<ProductManagementPage />} />
+          <Route path="products/new" element={<ProductFormPage />} />
+          <Route path="products/:id/edit" element={<ProductFormPage />} />
           <Route path="orders" element={<OrderManagementPage />} />
           <Route path="users" element={<UserManagementPage />} />
           <Route path="analytics" element={<div>Analytics (coming soon)</div>} />
