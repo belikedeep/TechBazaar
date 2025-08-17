@@ -2,7 +2,7 @@
 
 import type { Order } from "../types/order";
 
-const API_BASE = "http://localhost:3000/api/orders";
+const API_BASE = `${import.meta.env.VITE_API_BASE}/api/orders`;
 
 export const orderService = {
     async getOrders(): Promise<Order[]> {

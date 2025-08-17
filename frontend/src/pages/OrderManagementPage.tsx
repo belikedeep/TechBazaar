@@ -2,13 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import { orderService } from "../services/orderService";
-import { useAuthStore } from "../store/authStore";
 import type { Order } from "../types/order";
 
 const statusOptions = ["pending", "processing", "shipped", "delivered", "cancelled"];
 
 const OrderManagementPage: React.FC = () => {
-    const { user } = useAuthStore();
+    // Removed unused user variable
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -16,15 +15,15 @@ const OrderManagementPage: React.FC = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch("http://localhost:3000/api/orders/admin/all", {
+        fetch(`${import.meta.env.VITE_API_BASE}/api/orders/admin/all`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
         })
             .then((res) => res.json())
-            .then((data) =>
+            .then((data: Array<Order & { _id: string }>) =>
                 setOrders(
-                    data.map((order: any) => ({
+                    data.map((order) => ({
                         ...order,
                         id: order._id,
                     }))
@@ -43,8 +42,12 @@ const OrderManagementPage: React.FC = () => {
                     order.id === orderId ? { ...order, status } : order
                 )
             );
-        } catch (e: any) {
-            alert(e.message || "Failed to update status");
+        } catch (e: unknown) {
+            if (e && typeof e === "object" && "message" in e) {
+                alert((e as { message?: string }).message || "Failed to update status");
+            } else {
+                alert("Failed to update status");
+            }
         }
         setUpdating(null);
     };

@@ -2,7 +2,7 @@
 
 import type { Cart, CartItem } from "../types/cart";
 
-const API_BASE = "http://localhost:3000/api/cart";
+const API_BASE = `${import.meta.env.VITE_API_BASE}/api/cart`;
 
 function getAuthHeader(): HeadersInit | undefined {
     const token = localStorage.getItem("token");

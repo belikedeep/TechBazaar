@@ -3,7 +3,7 @@
 import type { AuthUser } from "../types/auth";
 
 // Use explicit backend base so requests hit backend server directly
-const API_BASE = "http://localhost:3000/api/users";
+const API_BASE = `${import.meta.env.VITE_API_BASE}/api/users`;
 
 export const userService = {
     async getProfile(): Promise<AuthUser> {

@@ -41,20 +41,25 @@ const CheckoutPage: React.FC = () => {
             // Prepare order payload
             const orderPayload = {
                 items: cartItems.map((item) => ({
-                    product: item.productId,
+                    productId: item.productId,
+                    name: item.name,
                     quantity: item.quantity,
                     price: item.price,
                 })),
                 total,
                 shippingAddress: `${address.name}, ${address.street}, ${address.city}, ${address.state}, ${address.postalCode}, ${address.phone}`,
             };
-            const order = await orderService.createOrder(orderPayload as any);
+            await orderService.createOrder(orderPayload as Partial<import("../types/order").Order>);
             setSuccess("Order placed successfully! Thank you for shopping.");
             setLoading(false);
             // Clear cart in store
             useCartStore.getState().setCart([]);
-        } catch (err: any) {
-            setError(err.message || "Failed to place order");
+        } catch (err: unknown) {
+            if (err && typeof err === "object" && "message" in err) {
+                setError((err as { message?: string }).message || "Failed to place order");
+            } else {
+                setError("Failed to place order");
+            }
             setLoading(false);
         }
     };

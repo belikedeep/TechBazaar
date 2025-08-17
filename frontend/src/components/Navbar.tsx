@@ -23,47 +23,44 @@ const Navbar: React.FC = () => {
             </Link>
 
             <div className="flex items-center gap-6">
-                <button
-                    className="relative group"
-                    onClick={() => {
-                        if (!isAuthenticated) {
-                            navigate("/login");
-                        } else {
-                            navigate("/cart");
-                        }
-                    }}
-                    aria-label="Cart"
-                >
-                    <ShoppingCart className="w-6 h-6 text-gray-700" />
-                    {cartCount > 0 && (
-                        <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs rounded-full px-1.5 py-0.5 font-bold">
-                            {cartCount}
-                        </span>
-                    )}
-                </button>
-                {isAuthenticated && user ? (
-                    <div className="flex items-center gap-4">
-                        {user.role === "admin" && (
-                            <Link to="/admin" className="text-sm font-medium text-gray-700 hover:underline">
-                                Admin
-                            </Link>
-                        )}
-                        <span className="text-base text-gray-700">Hello, {user.name || user.email}</span>
+                {isAuthenticated && user && (
+                    <>
                         <button
-                            onClick={handleLogout}
-                            className="text-base font-medium text-blue-700 hover:underline"
+                            className="relative group"
+                            onClick={() => navigate("/cart")}
+                            aria-label="Cart"
                         >
-                            Logout
+                            <ShoppingCart className="w-6 h-6 text-gray-700" />
+                            {cartCount > 0 && (
+                                <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs rounded-full px-1.5 py-0.5 font-bold">
+                                    {cartCount}
+                                </span>
+                            )}
                         </button>
-                    </div>
-                ) : (
+                        <div className="flex items-center gap-4">
+                            {user.role === "admin" && (
+                                <Link to="/admin" className="text-sm font-medium text-gray-700 hover:underline">
+                                    Admin
+                                </Link>
+                            )}
+                            <span className="text-base text-gray-700">Hello, {user.name || user.email}</span>
+                            <button
+                                onClick={handleLogout}
+                                className="text-base font-medium text-blue-700 hover:underline"
+                            >
+                                Logout
+                            </button>
+                        </div>
+                        <Link to="/profile" className="text-base font-medium text-blue-700 hover:underline">
+                            Profile
+                        </Link>
+                    </>
+                )}
+                {!(isAuthenticated && user) && (
                     <Link to="/login" className="text-base font-medium text-blue-700 hover:underline">
                         Login
                     </Link>
                 )}
-                <Link to="/profile" className="text-base font-medium text-blue-700 hover:underline">
-                    Profile
-                </Link>
             </div>
         </nav>
     );
