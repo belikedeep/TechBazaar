@@ -41,7 +41,7 @@ const CheckoutPage: React.FC = () => {
             // Prepare order payload
             const orderPayload = {
                 items: cartItems.map((item) => ({
-                    productId: item.productId,
+                    product: item.productId,
                     name: item.name,
                     quantity: item.quantity,
                     price: item.price,

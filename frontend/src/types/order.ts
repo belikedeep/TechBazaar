@@ -1,7 +1,7 @@
 // Order type definitions
 
 export interface OrderItem {
-    productId: string;
+    product: string;
     name: string;
     price: number;
     quantity: number;
