@@ -31,6 +31,7 @@ export const useAuthStore = create<State & Actions>((set) => ({
         set({ loading: true, error: null });
         try {
             const { user, token } = await authService.login({ email, password });
+            localStorage.setItem("token", token);
             set({ user, token, isAuthenticated: true, loading: false });
         } catch (err: any) {
             set({ error: err.message || "Login failed", loading: false });
@@ -39,7 +40,7 @@ export const useAuthStore = create<State & Actions>((set) => ({
 
     logout: () => {
         authService.logout();
-        set({ user: null, token: null, isAuthenticated: false });
+        set({ user: null, token: null, isAuthenticated: false, error: null });
     },
 
     register: async (data) => {
@@ -62,5 +63,8 @@ export const useAuthStore = create<State & Actions>((set) => ({
         }
     },
 
-    setToken: (token) => set({ token }),
+    setToken: (token) => {
+        localStorage.setItem("token", token);
+        set({ token, isAuthenticated: true });
+    },
 }));

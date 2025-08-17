@@ -1,17 +1,19 @@
 import express from 'express';
-import 'dotenv/config'
-import dotenv from 'dotenv'
-import { connectDB } from './db/dbConnect';
+import cors from 'cors';
+import 'dotenv/config';
+import { connectDB } from './db/dbConnect.js';
+import { registerRoutes } from './routes/index.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
+app.use(cors({
+  origin: 'http://localhost:5173', // Frontend URL
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-import { registerRoutes } from "./routes";
-
-await connectDB();
 
 // Routes
 app.get('/', (req, res) => {
@@ -42,10 +44,24 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
   });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}`);
-  console.log(`📊 Health check available at http://localhost:${PORT}/health`);
-});
+// Async function to start the server
+async function startServer() {
+  try {
+    // Connect to database first
+    await connectDB();
+
+    // Start server
+    app.listen(PORT, () => {
+      console.log(`🚀 Server is running on http://localhost:${PORT}`);
+      console.log(`📊 Health check available at http://localhost:${PORT}/health`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+// Start the server
+startServer();
 
 export default app;

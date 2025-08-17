@@ -2,11 +2,11 @@
 
 import type { AuthUser, AuthCredentials, RegisterData } from "../types/auth";
 
-const API_BASE = "/api";
+const API_BASE = "http://localhost:3000/api";
 
 export const authService = {
     async login(credentials: AuthCredentials): Promise<{ user: AuthUser; token: string }> {
-        const res = await fetch(`${API_BASE}/auth/login`, {
+        const res = await fetch(`${API_BASE}/v1/auth/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(credentials),
@@ -16,7 +16,7 @@ export const authService = {
     },
 
     async register(data: RegisterData): Promise<void> {
-        const res = await fetch(`${API_BASE}/auth/register`, {
+        const res = await fetch(`${API_BASE}/v1/auth/signup`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
