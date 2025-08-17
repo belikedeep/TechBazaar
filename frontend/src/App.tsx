@@ -11,6 +11,9 @@ import OrderManagementPage from "./pages/OrderManagementPage";
 import UserManagementPage from "./pages/UserManagementPage";
 import { useAuthStore } from "./store/authStore";
 import type { ReactNode } from "react";
+import ProductDetailPage from "./pages/ProductDetailPage";
+import CartPage from "./pages/CartPage";
+import Navbar from "./components/Navbar";
 
 const PublicRoute = ({ children }: { children: ReactNode }) => {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -27,6 +30,7 @@ const AdminRoute = ({ children }: { children: ReactNode }) => {
 const App = () => {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route
@@ -63,6 +67,9 @@ const App = () => {
           <Route path="users" element={<UserManagementPage />} />
           <Route path="analytics" element={<div>Analytics (coming soon)</div>} />
         </Route>
+        {/* Product detail route */}
+        <Route path="/products/:id" element={<ProductDetailPage />} />
+        <Route path="/cart" element={<CartPage />} />
       </Routes>
     </BrowserRouter>
   );

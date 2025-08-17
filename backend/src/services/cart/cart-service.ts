@@ -1,4 +1,5 @@
 import Cart from "../../db/schemas/cart";
+import mongoose from "mongoose";
 
 export async function getUserCart(userId: string) {
     return Cart.findOne({ user: userId }).populate("items.product");
@@ -14,7 +15,7 @@ export async function addItemToCart(userId: string, product: string, quantity: n
     if (itemIndex > -1) {
         cart.items[itemIndex]!.quantity += quantity;
     } else {
-        cart.items.push({ product: require("mongoose").Types.ObjectId(product), quantity });
+        cart.items.push({ product: new mongoose.Types.ObjectId(product), quantity });
     }
     await cart.save();
     return cart;
@@ -27,7 +28,7 @@ export async function updateCartItem(userId: string, product: string, quantity: 
     if (!item) return null;
     item.quantity = quantity;
     await cart.save();
-    return cart;
+    return await Cart.findOne({ user: userId }).populate("items.product");
 }
 
 export async function removeCartItem(userId: string, itemId: string) {
@@ -35,7 +36,7 @@ export async function removeCartItem(userId: string, itemId: string) {
     if (!cart) return null;
     cart.items = cart.items.filter((item: any) => !item.product.equals(itemId));
     await cart.save();
-    return cart;
+    return await Cart.findOne({ user: userId }).populate("items.product");
 }
 
 export async function clearCart(userId: string) {

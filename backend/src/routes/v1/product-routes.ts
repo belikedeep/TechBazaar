@@ -20,6 +20,12 @@ const upload = multer({ dest: "uploads/" });
 // GET /api/products - Get all products with pagination
 router.get("/", getAllProductsHandler);
 
+// GET /api/products/search - Search products
+router.get("/search", searchProductsHandler);
+
+// GET /api/products/filter - Filter by category/price
+router.get("/filter", filterProductsHandler);
+
 // GET /api/products/:id - Get single product details
 router.get("/:id", getProductByIdHandler);
 
@@ -34,11 +40,5 @@ router.delete("/:id", authenticateJWT, requireRole("admin"), deleteProductHandle
 
 // POST /api/products/upload - Upload product image (Admin only)
 router.post("/upload", authenticateJWT, requireRole("admin"), upload.single("image"), uploadProductImageHandler);
-
-// GET /api/products/search - Search products
-router.get("/search", searchProductsHandler);
-
-// GET /api/products/filter - Filter by category/price
-router.get("/filter", filterProductsHandler);
 
 export default router;

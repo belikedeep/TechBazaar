@@ -1,6 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../store/authStore";
+import { useCartStore } from "../store/cartStore";
+import { ShoppingCart } from "lucide-react";
 
 const Navbar: React.FC = () => {
     const navigate = useNavigate();
@@ -11,13 +13,34 @@ const Navbar: React.FC = () => {
         navigate("/");
     };
 
+    const { cartItems } = useCartStore();
+    const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
     return (
         <nav className="flex items-center justify-between px-6 py-4 bg-white shadow">
             <Link to="/" className="text-xl font-bold text-blue-700">
                 TechBazar
             </Link>
 
-            <div>
+            <div className="flex items-center gap-6">
+                <button
+                    className="relative group"
+                    onClick={() => {
+                        if (!isAuthenticated) {
+                            navigate("/login");
+                        } else {
+                            navigate("/cart");
+                        }
+                    }}
+                    aria-label="Cart"
+                >
+                    <ShoppingCart className="w-6 h-6 text-gray-700" />
+                    {cartCount > 0 && (
+                        <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs rounded-full px-1.5 py-0.5 font-bold">
+                            {cartCount}
+                        </span>
+                    )}
+                </button>
                 {isAuthenticated && user ? (
                     <div className="flex items-center gap-4">
                         {user.role === "admin" && (

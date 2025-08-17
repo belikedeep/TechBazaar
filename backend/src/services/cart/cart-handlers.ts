@@ -12,11 +12,13 @@ export async function getUserCartHandler(req: any, res: Response) {
 
 export async function addItemToCartHandler(req: any, res: Response) {
     try {
+        console.log("addItemToCartHandler req.body:", req.body);
         const { product, quantity } = req.body;
         const cart = await cartService.addItemToCart(req.user.id, product, quantity);
         res.json(cart);
     } catch (err) {
-        res.status(400).json({ error: "Failed to add item to cart" });
+        console.error("addItemToCartHandler error:", err);
+        res.status(400).json({ error: "Failed to add item to cart", details: err?.message });
     }
 }
 

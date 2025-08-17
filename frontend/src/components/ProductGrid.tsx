@@ -1,4 +1,4 @@
-// ProductGrid: Displays a grid of ProductCard components
+// ProductGrid: Displays a grid of ProductCard components (3 columns x 5 rows -> up to 15 items)
 
 import React from "react";
 import type { Product } from "../types/product";
@@ -9,10 +9,15 @@ type Props = {
 };
 
 const ProductGrid: React.FC<Props> = ({ products }) => {
+    // Limit to 15 items (3 columns x 5 rows)
+    const visible = products.slice(0, 15);
+
     return (
-        <div>
-            {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {visible.map((product) => (
+                <div key={product.id} className="flex">
+                    <ProductCard product={product} />
+                </div>
             ))}
         </div>
     );

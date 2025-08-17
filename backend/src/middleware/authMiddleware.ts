@@ -8,11 +8,20 @@ export interface AuthRequest extends Request {
 }
 
 export function authenticateJWT(req: AuthRequest, res: Response, next: NextFunction) {
+    // Support both JWT in Authorization header and session cookie
+    let token: string | undefined;
+
+    // 1. Try Authorization header (Bearer)
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        return res.status(401).json({ error: "No token provided" });
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+        token = authHeader.split(" ")[1];
     }
-    const token = authHeader.split(" ")[1];
+
+    // 2. Try cookie (e.g. req.cookies.token or req.signedCookies.token)
+    if (!token && req.cookies && req.cookies.token) {
+        token = req.cookies.token;
+    }
+
     if (!token) {
         return res.status(401).json({ error: "No token provided" });
     }
