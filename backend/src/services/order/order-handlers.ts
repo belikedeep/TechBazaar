@@ -22,14 +22,19 @@ export async function getUserOrdersHandler(req: any, res: Response) {
 export async function getOrderByIdHandler(req: any, res: Response) {
     try {
         const order = await orderService.getOrderById(req.params.id!);
-        if (!order) return res.status(404).json({ error: "Order not found" });
+        if (!order) {
+            res.status(404).json({ error: "Order not found" });
+            return;
+        }
         // Only allow user to access their own order, or admin
         if (order.user.toString() !== req.user.id && req.user.role !== "admin") {
-            return res.status(403).json({ error: "Forbidden" });
+            res.status(403).json({ error: "Forbidden" });
+            return;
         }
         res.json(order);
     } catch (err) {
         res.status(500).json({ error: "Failed to fetch order" });
+        return;
     }
 }
 
@@ -37,10 +42,14 @@ export async function updateOrderStatusHandler(req: Request, res: Response) {
     try {
         const { status } = req.body;
         const order = await orderService.updateOrderStatus(req.params.id!, status);
-        if (!order) return res.status(404).json({ error: "Order not found" });
+        if (!order) {
+            res.status(404).json({ error: "Order not found" });
+            return;
+        }
         res.json(order);
     } catch (err) {
         res.status(400).json({ error: "Failed to update order status" });
+        return;
     }
 }
 

@@ -16,10 +16,15 @@ export async function getAllProductsHandler(req: Request, res: Response) {
 export async function getProductByIdHandler(req: Request, res: Response) {
     try {
         const product = await productService.getProductById(req.params.id!);
-        if (!product) return res.status(404).json({ error: "Product not found" });
+        if (!product) {
+            res.status(404).json({ error: "Product not found" });
+            return;
+        }
         res.json(product);
+        return;
     } catch (err) {
         res.status(500).json({ error: "Failed to fetch product" });
+        return;
     }
 }
 
@@ -38,31 +43,43 @@ export async function createProductHandler(req: Request, res: Response) {
 export async function updateProductHandler(req: Request, res: Response) {
     try {
         const product = await productService.updateProduct(req.params.id!, req.body);
-        if (!product) return res.status(404).json({ error: "Product not found" });
+        if (!product) {
+            res.status(404).json({ error: "Product not found" });
+            return;
+        }
         res.json(product);
     } catch (err) {
         res.status(400).json({ error: "Failed to update product" });
+        return;
     }
 }
 
 export async function deleteProductHandler(req: Request, res: Response) {
     try {
         const product = await productService.deleteProduct(req.params.id!);
-        if (!product) return res.status(404).json({ error: "Product not found" });
+        if (!product) {
+            res.status(404).json({ error: "Product not found" });
+            return;
+        }
         res.json({ message: "Product deleted" });
     } catch (err) {
         res.status(400).json({ error: "Failed to delete product" });
+        return;
     }
 }
 
 export async function searchProductsHandler(req: Request, res: Response) {
     try {
         const { q } = req.query;
-        if (!q || typeof q !== "string") return res.status(400).json({ error: "Missing search query" });
+        if (!q || typeof q !== "string") {
+            res.status(400).json({ error: "Missing search query" });
+            return;
+        }
         const products = await productService.searchProducts(q);
         res.json(products);
     } catch (err) {
         res.status(500).json({ error: "Failed to search products" });
+        return;
     }
 }
 
@@ -72,6 +89,7 @@ export async function filterProductsHandler(req: Request, res: Response) {
         res.json(products);
     } catch (err) {
         res.status(500).json({ error: "Failed to filter products" });
+        return;
     }
 }
 
@@ -83,7 +101,10 @@ export async function uploadProductImageHandler(req: Request, res: Response) {
     try {
         // multer will place file on req.file
         const file = (req as any).file;
-        if (!file) return res.status(400).json({ error: "No file uploaded" });
+        if (!file) {
+            res.status(400).json({ error: "No file uploaded" });
+            return;
+        }
 
         // Build a public URL for the uploaded file
         const host = req.get("host");
@@ -93,5 +114,6 @@ export async function uploadProductImageHandler(req: Request, res: Response) {
         res.status(201).json({ url, filename: file.filename });
     } catch (err) {
         res.status(500).json({ error: "Failed to upload image" });
+        return;
     }
 }

@@ -15,7 +15,7 @@ export async function addItemToCart(userId: string, product: string, quantity: n
     if (itemIndex > -1) {
         cart.items[itemIndex]!.quantity += quantity;
     } else {
-        cart.items.push({ product: new mongoose.Types.ObjectId(product), quantity });
+        cart.items.push({ product: product as any, quantity });
     }
     await cart.save();
     return cart;

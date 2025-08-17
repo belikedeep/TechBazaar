@@ -4,20 +4,28 @@ import * as userService from "./user-service";
 export async function getUserProfileHandler(req: any, res: Response) {
     try {
         const user = await userService.getUserProfile(req.user.id);
-        if (!user) return res.status(404).json({ error: "User not found" });
+        if (!user) {
+            res.status(404).json({ error: "User not found" });
+            return;
+        }
         res.json(user);
     } catch (err) {
         res.status(500).json({ error: "Failed to fetch profile" });
+        return;
     }
 }
 
 export async function updateUserProfileHandler(req: any, res: Response) {
     try {
         const user = await userService.updateUserProfile(req.user.id, req.body);
-        if (!user) return res.status(404).json({ error: "User not found" });
+        if (!user) {
+            res.status(404).json({ error: "User not found" });
+            return;
+        }
         res.json(user);
     } catch (err) {
         res.status(400).json({ error: "Failed to update profile" });
+        return;
     }
 }
 
@@ -33,10 +41,14 @@ export async function getAllUsersHandler(req: Request, res: Response) {
 export async function updateUserRoleHandler(req: Request, res: Response) {
     try {
         const user = await userService.updateUserRole(req.params.id!, req.body.role);
-        if (!user) return res.status(404).json({ error: "User not found" });
+        if (!user) {
+            res.status(404).json({ error: "User not found" });
+            return;
+        }
         res.json(user);
     } catch (err) {
         res.status(400).json({ error: "Failed to update user role" });
+        return;
     }
 }
 
@@ -46,9 +58,13 @@ export async function updateUserRoleHandler(req: Request, res: Response) {
 export async function deleteUserHandler(req: Request, res: Response) {
     try {
         const user = await userService.deleteUser(req.params.id!);
-        if (!user) return res.status(404).json({ error: "User not found" });
+        if (!user) {
+            res.status(404).json({ error: "User not found" });
+            return;
+        }
         res.json({ message: "User deleted", user });
     } catch (err) {
         res.status(400).json({ error: "Failed to delete user" });
+        return;
     }
 }
