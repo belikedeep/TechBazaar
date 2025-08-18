@@ -81,9 +81,10 @@ const HomePage: React.FC = () => {
         <div>
             {/* <Navbar /> */}
             <div className="container mx-auto px-4 py-8">
-                <section className="mb-12">
-                    <h1 className="text-4xl font-bold text-center mb-4">Welcome to TechBazaar</h1>
-                    <p className="text-xl text-center text-gray-600">Discover the best tech products!</p>
+                <section className="mb-12 text-white py-24">
+                    <h1 className="text-4xl font-bold text-center mb-4">TechBazaar</h1>
+                    <p className="text-xl text-center"> Discover the best tech products that make your life smarter, faster, and more
+                        connected</p>
                 </section>
 
                 <section className="mb-12">
