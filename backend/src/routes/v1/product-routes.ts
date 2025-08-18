@@ -3,6 +3,8 @@
 import { Router } from "express";
 import { authenticateJWT, requireRole } from "../../middleware/authMiddleware";
 import multer from "multer";
+import { v2 as cloudinary } from "cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
 import {
     getAllProductsHandler,
     getProductByIdHandler,
@@ -13,9 +15,19 @@ import {
     filterProductsHandler,
     uploadProductImageHandler
 } from "../../services/product/product-handlers";
+import "../../lib/cloudinary";
 
 const router = Router();
-const upload = multer({ dest: "uploads/" });
+
+const storage = new CloudinaryStorage({
+    cloudinary,
+    params: async (req, file) => ({
+        folder: "products",
+        allowed_formats: ["jpg", "jpeg", "png", "webp"],
+        transformation: [{ width: 600, height: 600, crop: "limit" }]
+    })
+});
+const upload = multer({ storage });
 
 // GET /api/products - Get all products with pagination
 router.get("/", getAllProductsHandler);

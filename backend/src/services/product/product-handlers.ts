@@ -106,10 +106,8 @@ export async function uploadProductImageHandler(req: Request, res: Response) {
             return;
         }
 
-        // Build a public URL for the uploaded file
-        const host = req.get("host");
-        const protocol = req.protocol;
-        const url = `${protocol}://${host}/uploads/${file.filename}`;
+        // Cloudinary multer-storage puts the URL in file.path or file.url
+        const url = file.path || file.url;
 
         res.status(201).json({ url, filename: file.filename });
     } catch (err) {
