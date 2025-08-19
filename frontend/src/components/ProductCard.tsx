@@ -12,10 +12,8 @@ type Props = {
 const ProductCard: React.FC<Props> = ({ product }) => {
     return (
         <Link to={`/products/${product.id}`} className="block">
-            <div className="bg-white rounded-xl shadow-md p-4 flex flex-col w-full h-full border border-gray-100 hover:shadow-xl hover:border-blue-400 transition-all duration-200 group">
-                <div
-                    className="w-full rounded-lg overflow-hidden mb-4 bg-gray-50 relative aspect-square flex items-center justify-center"
-                >
+            <div className="flex flex-col items-center w-full h-full group">
+                <div className="w-full rounded-lg overflow-hidden mb-2 relative flex items-center justify-center" style={{ aspectRatio: "2/3", minHeight: "280px", maxHeight: "400px", background: "#222" }}>
                     <img
                         src={product.image || ""}
                         alt={product.name}
@@ -30,14 +28,9 @@ const ProductCard: React.FC<Props> = ({ product }) => {
                         }}
                     />
                 </div>
-
-                <div className="flex-1 flex flex-col">
-                    <h3 className="font-semibold text-base md:text-lg mb-1 truncate">{product.name}</h3>
-                    <p className="text-xs md:text-sm text-gray-500 mb-2 line-clamp-2">{product.description}</p>
-                    <div className="mt-auto flex items-center justify-between">
-                        <span className="font-bold text-blue-600 text-lg">₹{product.price}</span>
-                        <span className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full ml-2">View</span>
-                    </div>
+                <div className="w-full flex flex-col items-start px-1">
+                    <h3 className="font-semibold text-base md:text-lg mb-1 truncate text-white">{product.name}</h3>
+                    <span className="font-bold text-lg text-white">₹{product.price}</span>
                 </div>
             </div>
         </Link>
