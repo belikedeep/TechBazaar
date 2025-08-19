@@ -22,35 +22,35 @@ const UserDashboardPage: React.FC = () => {
     }, []);
 
     return (
-        <div className="max-w-3xl mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-6">Profile</h1>
+        <div className="max-w-3xl mx-auto pt-20 p-4">
+            <h1 className="text-3xl font-bold mb-10 text-white tracking-tight">Profile</h1>
             {user && (
-                <div className="mb-8">
-                    <div><b>Name:</b> {user.name || user.email}</div>
-                    <div><b>Email:</b> {user.email}</div>
+                <div className="mb-10 bg-white/10 backdrop-blur-xl rounded-2xl p-6 shadow-lg border border-white/10">
+                    <div className="text-lg text-white mb-2"><span className="font-semibold">Name:</span> {user.name || user.email}</div>
+                    <div className="text-lg text-white"><span className="font-semibold">Email:</span> {user.email}</div>
                 </div>
             )}
-            <h2 className="text-lg font-semibold mb-2">Order History</h2>
-            {loading && <div>Loading orders...</div>}
-            {error && <div className="text-red-600">{error}</div>}
-            {orders.length === 0 && !loading && <div>No orders found.</div>}
-            <ul className="divide-y">
+            <h2 className="text-2xl font-semibold mb-6 text-white">Order History</h2>
+            {loading && <div className="text-white/80">Loading orders...</div>}
+            {error && <div className="text-red-400">{error}</div>}
+            {orders.length === 0 && !loading && <div className="text-white/60">No orders found.</div>}
+            <ul className="flex flex-col gap-6">
                 {orders.map((order) => (
-                    <li key={order.id || order.createdAt} className="py-4">
-                        <div className="flex justify-between">
-                            <span className="font-semibold">Order #{order.id ?? "N/A"}</span>
-                            <span className="text-sm text-gray-600">{new Date(order.createdAt).toLocaleString()}</span>
+                    <li key={order.id || order.createdAt} className="bg-white/10 backdrop-blur-xl rounded-xl p-6 shadow border border-white/10">
+                        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2 mb-2">
+                            <span className="font-semibold text-white">Order #{order.id ?? "N/A"}</span>
+                            <span className="text-sm text-white/70">{new Date(order.createdAt).toLocaleString()}</span>
                         </div>
-                        <div>Status: <b>{order.status}</b></div>
-                        <div>Shipping: {order.shippingAddress}</div>
-                        <ul className="ml-4 mt-2">
+                        <div className="mb-2 text-white/80">Status: <b className="text-purple-300">{order.status}</b></div>
+                        <div className="mb-2 text-white/80">Shipping: <span className="text-white">{order.shippingAddress}</span></div>
+                        <ul className="ml-4 mt-2 text-white/90">
                             {order.items.map((item, idx) => (
                                 <li key={item.product + '-' + idx}>
-                                    {item.product} x {item.quantity} @ ₹{item.price}
+                                    {item.product} <span className="text-purple-300">x {item.quantity}</span> @ ₹{item.price}
                                 </li>
                             ))}
                         </ul>
-                        <div className="font-bold mt-2">Total: ₹{order.total}</div>
+                        <div className="font-bold mt-4 text-white text-lg">Total: ₹{order.total}</div>
                     </li>
                 ))}
             </ul>
