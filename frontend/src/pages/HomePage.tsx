@@ -18,6 +18,7 @@ const HomePage: React.FC = () => {
     const [totalPages, setTotalPages] = useState<number>(1);
     const [activeCategory, setActiveCategory] = useState<string>("");
     const [query, setQuery] = useState<string>("");
+    const [totalProducts, setTotalProducts] = useState<number>(0);
 
     useEffect(() => {
         productService
@@ -55,6 +56,7 @@ const HomePage: React.FC = () => {
                 setProducts(res.products);
                 setPage(res.page);
                 setTotalPages(res.totalPages);
+                setTotalProducts(res.total ?? res.products.length);
             }
         } catch (err: unknown) {
             const message = err instanceof Error ? err.message : String(err);
@@ -86,6 +88,10 @@ const HomePage: React.FC = () => {
                     <p className="text-xl text-center"> Discover the best tech products that make your life smarter, faster, and more
                         connected</p>
                 </section>
+                <div className="flex items-center mb-2">
+                    <span className="text-3xl text-white font-medium">{totalProducts} products</span>
+                </div>
+                <hr className="my-8 border-t-2 border-gray-300/30" />
 
                 <section className="mb-12">
                     <div className="grid grid-cols-12 gap-6">
