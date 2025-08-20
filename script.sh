@@ -16,3 +16,7 @@ git merge dev
 git push origin main
 
 echo "dev branch has been merged into main and pushed to origin."
+
+# Switch back to dev branch
+git checkout dev
+echo "Switched back to dev branch."
