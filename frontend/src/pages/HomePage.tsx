@@ -19,6 +19,7 @@ const HomePage: React.FC = () => {
     const [activeCategory, setActiveCategory] = useState<string>("");
     const [query, setQuery] = useState<string>("");
     const [totalProducts, setTotalProducts] = useState<number>(0);
+    const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
 
     useEffect(() => {
         productService
@@ -34,12 +35,13 @@ const HomePage: React.FC = () => {
     // Accept optional overrides for query/category to avoid async state bugs
     const fetchProducts = async (
         p = 1,
-        opts?: { query?: string; category?: string }
+        opts?: { query?: string; category?: string; sort?: "newest" | "oldest" }
     ) => {
         setLoading(true);
         setError(null);
         const q = opts?.query !== undefined ? opts.query : query;
         const cat = opts?.category !== undefined ? opts.category : activeCategory;
+        const sort = opts?.sort !== undefined ? opts.sort : sortOrder;
         try {
             if (q.trim()) {
                 const results = await productService.searchProducts(q.trim());
@@ -52,7 +54,7 @@ const HomePage: React.FC = () => {
                 setPage(1);
                 setTotalPages(1);
             } else {
-                const res = await productService.getProducts({ page: String(p), limit: "12" });
+                const res = await productService.getProducts({ page: String(p), limit: "12", sort });
                 setProducts(res.products);
                 setPage(res.page);
                 setTotalPages(res.totalPages);
@@ -70,13 +72,19 @@ const HomePage: React.FC = () => {
         const cat = (filters.category as string) ?? "";
         setQuery("");
         setActiveCategory(cat);
-        fetchProducts(1, { query: "", category: cat });
+        fetchProducts(1, { query: "", category: cat, sort: sortOrder });
     };
 
     const handleSearch = (q: string) => {
         setActiveCategory("");
         setQuery(q);
-        fetchProducts(1, { query: q, category: "" });
+        fetchProducts(1, { query: q, category: "", sort: sortOrder });
+    };
+
+    const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const value = e.target.value as "newest" | "oldest";
+        setSortOrder(value);
+        fetchProducts(1, { sort: value });
     };
 
     return (
@@ -88,8 +96,17 @@ const HomePage: React.FC = () => {
                     <p className="text-xl text-center"> Discover the best tech products that make your life smarter, faster, and more
                         connected</p>
                 </section>
-                <div className="flex items-center mb-2">
+                <div className="flex items-center justify-between mb-2">
                     <span className="text-3xl text-white font-medium">{totalProducts} products</span>
+                    <select
+                        className="border border-gray-300 rounded px-3 py-1 text-sm text-gray-700 focus:outline-none"
+                        value={sortOrder}
+                        onChange={handleSortChange}
+                        style={{ minWidth: 120 }}
+                    >
+                        <option value="newest">Newest first</option>
+                        <option value="oldest">Oldest first</option>
+                    </select>
                 </div>
                 <hr className="my-8 border-t-2 border-gray-300/30" />
 

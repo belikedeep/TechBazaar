@@ -3,9 +3,13 @@ import Category from "../../db/schemas/categories";
 import mongoose from "mongoose";
 
 export async function getAllProducts(query: any) {
-    const { page = 1, limit = 10 } = query;
+    const { page = 1, limit = 10, sort } = query;
     const skip = (page - 1) * limit;
+    let sortOption: Record<string, 1 | -1> = { createdAt: -1 }; // Default: newest first
+    if (sort === "oldest") sortOption = { createdAt: 1 };
+
     const products = await Product.find()
+        .sort(sortOption)
         .skip(skip)
         .limit(Number(limit))
         .populate("category");
