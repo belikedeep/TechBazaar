@@ -13,9 +13,14 @@ type Props = {
 const FormInput: React.FC<Props> = ({ label, value, onChange, type = "text", error }) => {
     return (
         <div>
-            <label>
+            <label className="text-white">
                 {label}
-                <input type={type} value={value} onChange={e => onChange(e.target.value)} />
+                <input
+                    className="text-white bg-transparent border border-gray-400 placeholder-white"
+                    type={type}
+                    value={value}
+                    onChange={e => onChange(e.target.value)}
+                />
             </label>
             {error && <span className="error">{error}</span>}
         </div>
