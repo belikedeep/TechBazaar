@@ -15,7 +15,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
             <div className="flex flex-col items-center w-full h-full group">
                 <div className="w-full rounded-lg overflow-hidden mb-2 relative flex items-center justify-center" style={{ aspectRatio: "2/3", minHeight: "280px", maxHeight: "400px", background: "#222" }}>
                     <img
-                        src={product.image || ""}
+                        src={product.images && product.images.length > 0 ? product.images[0] : (product.image || "")}
                         alt={product.name}
                         className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
                         style={{

@@ -5,6 +5,7 @@ import { useCartStore } from "../store/cartStore";
 import { useAuthStore } from "../store/authStore";
 import { useNavigate } from "react-router";
 import type { Product } from "../types/product";
+import ImageGallery from "../components/ImageGallery";
 
 const ProductDetailPage: React.FC = () => {
     const { id } = useParams();
@@ -51,16 +52,7 @@ const ProductDetailPage: React.FC = () => {
                         className="w-full rounded-lg overflow-hidden relative flex items-center justify-center"
                         style={{ aspectRatio: "1/1", width: "min(80vw, 600px)", height: "min(80vw, 600px)", background: "#222", display: "flex" }}
                     >
-                        <img
-                            src={product.image || "/placeholder.png"}
-                            alt={product.name}
-                            className="object-cover aspect-square"
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover"
-                            }}
-                        />
+                        <ImageGallery images={product.images && product.images.length > 0 ? product.images : (product.image ? [product.image] : [])} />
                     </div>
                 </div>
                 <div className="flex flex-col items-start">

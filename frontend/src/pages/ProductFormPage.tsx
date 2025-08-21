@@ -16,7 +16,7 @@ const ProductFormPage: React.FC = () => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState<number>(0);
-    const [image, setImage] = useState("");
+    const [images, setImages] = useState<string[]>([]);
     const [category, setCategory] = useState("");
     const [stock, setStock] = useState<number>(0);
 
@@ -43,7 +43,7 @@ const ProductFormPage: React.FC = () => {
                     setName(p.name);
                     setDescription(p.description);
                     setPrice(p.price);
-                    setImage(p.image);
+                    setImages(p.images ?? (p.image ? [p.image] : []));
                     setCategory(p.category);
                     setStock(p.stock);
                 })
@@ -53,13 +53,17 @@ const ProductFormPage: React.FC = () => {
     }, [id]);
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const f = e.target.files && e.target.files[0];
-        if (!f) return;
+        const files = e.target.files;
+        if (!files || files.length === 0) return;
         setUploading(true);
         setError(null);
         try {
-            const res = await productService.uploadProductImage(f);
-            setImage(res.url);
+            const uploaded: string[] = [];
+            for (let i = 0; i < files.length; i++) {
+                const res = await productService.uploadProductImage(files[i]);
+                uploaded.push(res.url);
+            }
+            setImages((prev) => [...prev, ...uploaded]);
         } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : String(err);
             setError(msg || "Failed to upload image");
@@ -90,7 +94,7 @@ const ProductFormPage: React.FC = () => {
                 name,
                 description,
                 price,
-                image,
+                images,
                 category,
                 stock,
             };
@@ -194,12 +198,24 @@ const ProductFormPage: React.FC = () => {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium mb-1">Image</label>
+                    <label className="block text-sm font-medium mb-1">Images</label>
                     <div className="flex items-center space-x-4">
-                        <input type="file" accept="image/*" onChange={handleFileChange} />
+                        <input type="file" accept="image/*" multiple onChange={handleFileChange} />
                         {uploading && <span className="text-sm text-gray-500">Uploading...</span>}
-                        {image && (
-                            <img src={image} alt="preview" className="w-24 h-24 object-cover rounded" />
+                        {images.length > 0 && (
+                            <div className="flex space-x-2">
+                                {images.map((img, idx) => (
+                                    <div key={idx} className="relative">
+                                        <img src={img} alt={`preview ${idx + 1}`} className="w-16 h-16 object-cover rounded" />
+                                        <button
+                                            type="button"
+                                            className="absolute top-0 right-0 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
+                                            onClick={() => setImages(images.filter((_, i) => i !== idx))}
+                                            title="Remove"
+                                        >×</button>
+                                    </div>
+                                ))}
+                            </div>
                         )}
                     </div>
                 </div>

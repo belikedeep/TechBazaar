@@ -5,7 +5,8 @@ export interface Product {
     name: string;
     description: string;
     price: number;
-    image: string;
+    images: string[];
+    image?: string; // for backward compatibility
     category: string;
     stock: number;
 }

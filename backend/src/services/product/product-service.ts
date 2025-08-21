@@ -39,11 +39,19 @@ export async function createProduct(data: any) {
         }
     }
 
+    // If migrating from single image to images array, support both for backward compatibility
+    if (data.image && !data.images) {
+        data.images = [data.image];
+    }
     const product = new Product(data);
     return product.save();
 }
 
 export async function updateProduct(id: string, data: any) {
+    // If updating with single image, convert to images array
+    if (data.image && !data.images) {
+        data.images = [data.image];
+    }
     return Product.findByIdAndUpdate(id, data, { new: true });
 }
 

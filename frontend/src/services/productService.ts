@@ -15,12 +15,18 @@ type PaginatedProducts = {
 function normalizeProduct(p: unknown): Product {
     const obj = p as Record<string, unknown>;
     const id = ((obj.id ?? obj._id) as string) ?? "";
+    const images = Array.isArray(obj.images)
+        ? (obj.images as string[])
+        : obj.image
+            ? [obj.image as string]
+            : [];
     return {
         id,
         name: (obj.name as string) ?? "",
         description: (obj.description as string) ?? "",
         price: (obj.price as number) ?? 0,
-        image: (obj.image as string) ?? "",
+        images,
+        image: images[0] ?? "",
         category:
             typeof obj.category === "string"
                 ? (obj.category as string)
@@ -132,18 +138,24 @@ export const productService = {
         name: string;
         description: string;
         price: number;
-        image: string;
+        images?: string[];
+        image?: string;
         category: string;
         stock: number;
     }): Promise<Product> {
         const token = localStorage.getItem("token");
+        // For backward compatibility, always send both image and images
+        const payload = {
+            ...data,
+            image: data.images && data.images.length > 0 ? data.images[0] : (data.image ?? ""),
+        };
         const res = await fetch(`${API_BASE}/products`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token ?? ""}`,
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(payload),
         });
         if (!res.ok) {
             const text = await res.text();
@@ -157,18 +169,24 @@ export const productService = {
         name: string;
         description: string;
         price: number;
-        image: string;
+        images?: string[];
+        image?: string;
         category: string;
         stock: number;
     }>): Promise<Product> {
         const token = localStorage.getItem("token");
+        // For backward compatibility, always send both image and images
+        const payload = {
+            ...data,
+            image: data.images && data.images.length > 0 ? data.images[0] : (data.image ?? ""),
+        };
         const res = await fetch(`${API_BASE}/products/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token ?? ""}`,
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(payload),
         });
         if (!res.ok) {
             const text = await res.text();

@@ -4,7 +4,7 @@ export interface IProduct extends Document {
     name: string;
     description: string;
     price: number;
-    image: string;
+    images: string[];
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' };
     stock: number;
     createdAt: Date;
@@ -15,7 +15,7 @@ const ProductSchema: Schema = new Schema<IProduct>({
     description: { type: String, required: true, trim: true },
     price: { type: Number, required: true, min: 0 },
     // Make image optional so product creation does not fail if no image uploaded yet.
-    image: { type: String, required: false, default: "" },
+    images: { type: [String], required: false, default: [] },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
     stock: { type: Number, required: true, min: 0 },
     createdAt: { type: Date, default: Date.now }
