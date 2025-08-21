@@ -16,7 +16,7 @@ const HomePage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [page, setPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
-    const [activeCategory, setActiveCategory] = useState<string>("");
+    const [activeCategories, setActiveCategories] = useState<string[]>([]);
     const [query, setQuery] = useState<string>("");
     const [totalProducts, setTotalProducts] = useState<number>(0);
     const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
@@ -35,12 +35,12 @@ const HomePage: React.FC = () => {
     // Accept optional overrides for query/category to avoid async state bugs
     const fetchProducts = async (
         p = 1,
-        opts?: { query?: string; category?: string; sort?: "newest" | "oldest" }
+        opts?: { query?: string; category?: string[]; sort?: "newest" | "oldest" }
     ) => {
         setLoading(true);
         setError(null);
         const q = opts?.query !== undefined ? opts.query : query;
-        const cat = opts?.category !== undefined ? opts.category : activeCategory;
+        const cats = opts?.category !== undefined ? opts.category : activeCategories;
         const sort = opts?.sort !== undefined ? opts.sort : sortOrder;
         try {
             if (q.trim()) {
@@ -48,8 +48,8 @@ const HomePage: React.FC = () => {
                 setProducts(results);
                 setPage(1);
                 setTotalPages(1);
-            } else if (cat) {
-                const results = await productService.filterProducts({ category: cat });
+            } else if (cats && cats.length > 0) {
+                const results = await productService.filterProducts({ category: cats });
                 setProducts(results);
                 setPage(1);
                 setTotalPages(1);
@@ -69,16 +69,16 @@ const HomePage: React.FC = () => {
     };
 
     const handleFilter = (filters: Record<string, unknown>) => {
-        const cat = (filters.category as string) ?? "";
+        const cats = (filters.category as string[]) ?? [];
         setQuery("");
-        setActiveCategory(cat);
-        fetchProducts(1, { query: "", category: cat, sort: sortOrder });
+        setActiveCategories(cats);
+        fetchProducts(1, { query: "", category: cats, sort: sortOrder });
     };
 
     const handleSearch = (q: string) => {
-        setActiveCategory("");
+        setActiveCategories([]);
         setQuery(q);
-        fetchProducts(1, { query: q, category: "", sort: sortOrder });
+        fetchProducts(1, { query: q, category: [], sort: sortOrder });
     };
 
     const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -116,12 +116,14 @@ const HomePage: React.FC = () => {
                             <div className="mb-4">
                                 <SearchBar onSearch={handleSearch} />
                             </div>
-                            {activeCategory && (
+                            {activeCategories.length > 0 && (
                                 <button
-                                    className="mb-4 px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 text-sm font-medium"
+                                    className="mb-4 px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 text-sm font-medium text-white"
                                     onClick={() => {
-                                        setActiveCategory("");
-                                        fetchProducts(1, { category: "", query });
+                                        setActiveCategories([]);
+                                        fetchProducts(1, { category: [], query });
+                                        // Notify sidebar to clear checkboxes
+                                        window.dispatchEvent(new Event("clear-categories"));
                                     }}
                                 >
                                     Clear Category Filter

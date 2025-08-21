@@ -57,7 +57,21 @@ export async function searchProducts(q: string) {
 
 export async function filterProducts(filter: any) {
     const query: any = {};
-    if (filter.category) query.category = filter.category;
+    if (filter.category) {
+        // Support category as array or comma-separated string
+        let cats = filter.category;
+        if (typeof cats === "string") {
+            // Check for comma-separated values
+            if (cats.includes(",")) {
+                cats = cats.split(",").map((c: string) => c.trim());
+            }
+        }
+        if (Array.isArray(cats)) {
+            query.category = { $in: cats };
+        } else {
+            query.category = cats;
+        }
+    }
     if (filter.minPrice || filter.maxPrice) {
         query.price = {};
         if (filter.minPrice) query.price.$gte = Number(filter.minPrice);

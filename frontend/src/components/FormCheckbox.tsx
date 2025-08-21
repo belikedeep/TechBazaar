@@ -3,7 +3,7 @@
 import React from "react";
 
 type Props = {
-    label: string;
+    label: React.ReactNode;
     checked: boolean;
     onChange: (checked: boolean) => void;
     type?: "checkbox" | "radio";
