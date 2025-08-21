@@ -99,13 +99,12 @@ const HomePage: React.FC = () => {
                 <div className="flex items-center justify-between mb-2">
                     <span className="text-3xl text-white font-medium">{totalProducts} products</span>
                     <select
-                        className="border border-gray-300 rounded px-3 py-1 text-sm text-gray-700 focus:outline-none"
+                        className="px-4 py-2 rounded-md text-sm text-white focus:outline-none min-w-[140px] bg-white/10 border border-white/20 shadow-lg backdrop-blur-md transition-shadow [appearance-none] [background-clip:padding-box]"
                         value={sortOrder}
                         onChange={handleSortChange}
-                        style={{ minWidth: 120 }}
                     >
-                        <option value="newest">Newest first</option>
-                        <option value="oldest">Oldest first</option>
+                        <option value="newest" className="bg-white/80 text-black backdrop-blur-md">Newest first</option>
+                        <option value="oldest" className="bg-white/80 text-black backdrop-blur-md">Oldest first</option>
                     </select>
                 </div>
                 <hr className="my-8 border-t-2 border-gray-300/30" />
