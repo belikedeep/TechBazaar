@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { productService } from "../services/productService";
+import { productService, colorService, sizeService } from "../services/productService";
 import type { Product, Category } from "../types/product";
 
 /**
@@ -18,9 +18,15 @@ const ProductFormPage: React.FC = () => {
     const [price, setPrice] = useState<number>(0);
     const [images, setImages] = useState<string[]>([]);
     const [category, setCategory] = useState("");
+    const [color, setColor] = useState("");
+    const [size, setSize] = useState("");
     const [stock, setStock] = useState<number>(0);
 
     const [categories, setCategories] = useState<Category[]>([]);
+    const [colors, setColors] = useState<{ id: string; name: string }[]>([]);
+    const [sizes, setSizes] = useState<{ id: string; name: string }[]>([]);
+    const [creatingColor, setCreatingColor] = useState(false);
+    const [creatingSize, setCreatingSize] = useState(false);
     const [loading, setLoading] = useState(false);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -35,6 +41,16 @@ const ProductFormPage: React.FC = () => {
                 console.error(e);
             });
 
+        // load colors from backend
+        colorService.getColors()
+            .then((colors) => setColors(colors))
+            .catch(() => setColors([]));
+
+        // load sizes from backend
+        sizeService.getSizes()
+            .then((sizes) => setSizes(sizes))
+            .catch(() => setSizes([]));
+
         if (id) {
             setLoading(true);
             productService
@@ -45,6 +61,8 @@ const ProductFormPage: React.FC = () => {
                     setPrice(p.price);
                     setImages(p.images ?? (p.image ? [p.image] : []));
                     setCategory(p.category);
+                    setColor(p.color ?? "");
+                    setSize(p.size ?? "");
                     setStock(p.stock);
                 })
                 .catch((e: unknown) => setError(e instanceof Error ? e.message : String(e)))
@@ -96,6 +114,8 @@ const ProductFormPage: React.FC = () => {
                 price,
                 images,
                 category,
+                color,
+                size,
                 stock,
             };
             if (id) {
@@ -194,6 +214,84 @@ const ProductFormPage: React.FC = () => {
                                 +
                             </button>
                         </div>
+                    </div>
+                </div>
+                <div>
+                    <label className="block text-sm font-medium mb-1">Color</label>
+                    <div className="flex items-center space-x-2">
+                        <select
+                            value={color}
+                            onChange={(e) => setColor(e.target.value)}
+                            className="flex-1 border p-2 rounded"
+                        >
+                            <option value="">Select color</option>
+                            {colors.map((c) => (
+                                <option key={c.id} value={c.id}>
+                                    {c.name}
+                                </option>
+                            ))}
+                        </select>
+                        <button
+                            type="button"
+                            onClick={async () => {
+                                const name = window.prompt("New color name");
+                                if (!name) return;
+                                setCreatingColor(true);
+                                try {
+                                    const colorObj = await colorService.createColor(name);
+                                    setColors((s) => [...s, colorObj]);
+                                    setColor(colorObj.name);
+                                } catch (err) {
+                                    setError("Failed to create color");
+                                } finally {
+                                    setCreatingColor(false);
+                                }
+                            }}
+                            className="px-2 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+                            title="Create color"
+                            disabled={creatingColor}
+                        >
+                            {creatingColor ? "..." : "+"}
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <label className="block text-sm font-medium mb-1">Size</label>
+                    <div className="flex items-center space-x-2">
+                        <select
+                            value={size}
+                            onChange={(e) => setSize(e.target.value)}
+                            className="flex-1 border p-2 rounded"
+                        >
+                            <option value="">Select size</option>
+                            {sizes.map((s) => (
+                                <option key={s.id} value={s.id}>
+                                    {s.name}
+                                </option>
+                            ))}
+                        </select>
+                        <button
+                            type="button"
+                            onClick={async () => {
+                                const name = window.prompt("New size name");
+                                if (!name) return;
+                                setCreatingSize(true);
+                                try {
+                                    const sizeObj = await sizeService.createSize(name);
+                                    setSizes((s) => [...s, sizeObj]);
+                                    setSize(sizeObj.name);
+                                } catch (err) {
+                                    setError("Failed to create size");
+                                } finally {
+                                    setCreatingSize(false);
+                                }
+                            }}
+                            className="px-2 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+                            title="Create size"
+                            disabled={creatingSize}
+                        >
+                            {creatingSize ? "..." : "+"}
+                        </button>
                     </div>
                 </div>
 

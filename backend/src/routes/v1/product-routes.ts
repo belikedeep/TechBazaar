@@ -29,6 +29,66 @@ const storage = new CloudinaryStorage({
 });
 const upload = multer({ storage });
 
+import Color from "../../db/schemas/colors";
+import Size from "../../db/schemas/sizes";
+
+// Color and Size endpoints
+// GET /api/products/colors - List all colors
+router.get("/colors", async (req, res) => {
+    try {
+        const colors = await Color.find().sort({ name: 1 });
+        res.json(colors.map(c => ({
+            _id: c._id,
+            name: c.name,
+            createdAt: c.createdAt,
+            __v: c.__v
+        })));
+    } catch (e) {
+        console.error("GET /colors error:", e);
+        res.status(500).json({ error: "Failed to fetch color" });
+    }
+});
+
+// GET /api/products/sizes - List all sizes
+router.get("/sizes", async (req, res) => {
+    try {
+        const sizes = await Size.find().sort({ name: 1 });
+        res.json(sizes.map(s => ({
+            _id: s._id,
+            name: s.name,
+            createdAt: s.createdAt,
+            __v: s.__v
+        })));
+    } catch (e) {
+        console.error("GET /sizes error:", e);
+        res.status(500).json({ error: "Failed to fetch size" });
+    }
+});
+
+// POST /api/products/colors - Add a new color
+router.post("/colors", authenticateJWT, requireRole("admin"), async (req, res) => {
+    try {
+        const { name } = req.body;
+        if (!name) return res.status(400).json({ error: "Name required" });
+        const color = await Color.create({ name });
+        res.json({ id: color._id, name: color.name });
+    } catch (e) {
+        res.status(400).json({ error: "Color already exists" });
+    }
+});
+
+// POST /api/products/sizes - Add a new size
+router.post("/sizes", authenticateJWT, requireRole("admin"), async (req, res) => {
+    try {
+        const { name } = req.body;
+        if (!name) return res.status(400).json({ error: "Name required" });
+        const size = await Size.create({ name });
+        res.json({ id: size._id, name: size.name });
+    } catch (e) {
+        res.status(400).json({ error: "Size already exists" });
+    }
+});
+
 // GET /api/products - Get all products with pagination
 router.get("/", getAllProductsHandler);
 

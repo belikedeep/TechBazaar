@@ -18,10 +18,14 @@ export async function getAllProducts(query: any) {
 }
 
 export async function getProductById(id: string) {
-    return Product.findById(id).populate("category");
+    return Product.findById(id)
+        .populate("category");
 }
 
 export async function createProduct(data: any) {
+    // Debug: log incoming product data
+    console.log("Creating product with data:", JSON.stringify(data));
+
     // Accept category as either an ObjectId string or a category name.
     // If a name is supplied, resolve or create the category and set its ObjectId.
     if (data.category && typeof data.category === "string") {
@@ -34,10 +38,11 @@ export async function createProduct(data: any) {
                 data.category = cat._id;
             }
         } catch (err) {
-            // If resolving category fails, rethrow to surface validation to caller
             throw err;
         }
     }
+
+    // Accept color and size as plain strings; do not treat as references.
 
     // If migrating from single image to images array, support both for backward compatibility
     if (data.image && !data.images) {
@@ -48,6 +53,9 @@ export async function createProduct(data: any) {
 }
 
 export async function updateProduct(id: string, data: any) {
+    // Debug: log incoming update data
+    console.log("Updating product", id, "with data:", JSON.stringify(data));
+
     // If updating with single image, convert to images array
     if (data.image && !data.images) {
         data.images = [data.image];
@@ -85,5 +93,6 @@ export async function filterProducts(filter: any) {
         if (filter.minPrice) query.price.$gte = Number(filter.minPrice);
         if (filter.maxPrice) query.price.$lte = Number(filter.maxPrice);
     }
-    return Product.find(query).populate("category");
+    return Product.find(query)
+        .populate("category");
 }

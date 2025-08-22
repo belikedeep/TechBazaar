@@ -33,6 +33,8 @@ function normalizeProduct(p: unknown): Product {
                 : ((obj.category as Record<string, unknown>)?.id ??
                     (obj.category as Record<string, unknown>)?._id ??
                     "") as string,
+        color: (obj.color as string) ?? "",
+        size: (obj.size as string) ?? "",
         stock: (obj.stock as number) ?? 0,
     };
 }
@@ -142,6 +144,8 @@ export const productService = {
         image?: string;
         category: string;
         stock: number;
+        color?: string;
+        size?: string;
     }): Promise<Product> {
         const token = localStorage.getItem("token");
         // For backward compatibility, always send both image and images
@@ -173,6 +177,8 @@ export const productService = {
         image?: string;
         category: string;
         stock: number;
+        color?: string;
+        size?: string;
     }>): Promise<Product> {
         const token = localStorage.getItem("token");
         // For backward compatibility, always send both image and images
@@ -208,5 +214,50 @@ export const productService = {
             const text = await res.text();
             throw new Error(text || "Failed to delete product");
         }
+    },
+};
+
+export interface Color { id: string; name: string }
+export interface Size { id: string; name: string }
+
+export const colorService = {
+    async getColors(): Promise<Color[]> {
+        const res = await fetch(`${API_BASE}/products/colors`);
+        if (!res.ok) throw new Error("Failed to fetch colors");
+        return await res.json();
+    },
+    async createColor(name: string): Promise<Color> {
+        const token = localStorage.getItem("token");
+        const res = await fetch(`${API_BASE}/products/colors`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token ?? ""}`,
+            },
+            body: JSON.stringify({ name }),
+        });
+        if (!res.ok) throw new Error("Failed to create color");
+        return await res.json();
+    },
+};
+
+export const sizeService = {
+    async getSizes(): Promise<Size[]> {
+        const res = await fetch(`${API_BASE}/products/sizes`);
+        if (!res.ok) throw new Error("Failed to fetch sizes");
+        return await res.json();
+    },
+    async createSize(name: string): Promise<Size> {
+        const token = localStorage.getItem("token");
+        const res = await fetch(`${API_BASE}/products/sizes`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token ?? ""}`,
+            },
+            body: JSON.stringify({ name }),
+        });
+        if (!res.ok) throw new Error("Failed to create size");
+        return await res.json();
     },
 };

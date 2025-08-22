@@ -8,6 +8,8 @@ export interface Product {
     images: string[];
     image?: string; // for backward compatibility
     category: string;
+    color?: string;
+    size?: string;
     stock: number;
 }
 
