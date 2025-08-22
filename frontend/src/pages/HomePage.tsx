@@ -144,17 +144,19 @@ const HomePage: React.FC = () => {
                             <div className="mb-4">
                                 <SearchBar onSearch={handleSearch} />
                             </div>
-                            {activeCategories.length > 0 && (
+                            {(activeCategories.length > 0 || activeColors.length > 0 || activeSizes.length > 0) && (
                                 <button
                                     className="mb-4 px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 text-sm font-medium text-white"
                                     onClick={() => {
                                         setActiveCategories([]);
-                                        fetchProducts(1, { category: [], query });
+                                        setActiveColors([]);
+                                        setActiveSizes([]);
+                                        fetchProducts(1, { category: [], color: [], size: [], query });
                                         // Notify sidebar to clear checkboxes
                                         window.dispatchEvent(new Event("clear-categories"));
                                     }}
                                 >
-                                    Clear Category Filter
+                                    Clear Filters
                                 </button>
                             )}
                             <FilterSidebar
