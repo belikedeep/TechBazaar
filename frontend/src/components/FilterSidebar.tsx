@@ -66,7 +66,7 @@ const FilterSidebar: React.FC<Props> = ({ categories, colors, sizes, onFilter })
                 {categories.map((cat) => (
                     <li key={cat.id} className="mb-1">
                         <FormCheckbox
-                            label={<span style={{ color: "white" }}>{cat.name}</span>}
+                            label={<span style={{ color: "white", marginLeft: 8 }}>{cat.name}</span>}
                             checked={selectedCategories.includes(cat.id)}
                             onChange={checked => handleCheck("category", cat.id, checked)}
                         />
@@ -78,7 +78,7 @@ const FilterSidebar: React.FC<Props> = ({ categories, colors, sizes, onFilter })
                 {colors.map((color) => (
                     <li key={color.id} className="mb-1">
                         <FormCheckbox
-                            label={<span style={{ color: "white" }}>{color.name}</span>}
+                            label={<span style={{ color: "white", marginLeft: 8 }}>{color.name}</span>}
                             checked={selectedColors.includes(color.name)}
                             onChange={checked => handleCheck("color", color.name, checked)}
                         />
@@ -90,7 +90,7 @@ const FilterSidebar: React.FC<Props> = ({ categories, colors, sizes, onFilter })
                 {sizes.map((size) => (
                     <li key={size.id} className="mb-1">
                         <FormCheckbox
-                            label={<span style={{ color: "white" }}>{size.name}</span>}
+                            label={<span style={{ color: "white", marginLeft: 8 }}>{size.name}</span>}
                             checked={selectedSizes.includes(size.name)}
                             onChange={checked => handleCheck("size", size.name, checked)}
                         />
