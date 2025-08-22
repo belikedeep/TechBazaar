@@ -61,6 +61,14 @@ const ProductDetailPage: React.FC = () => {
                         <span className="text-2xl font-bold text-white">₹{product.price}</span>
                     </div>
                     <p className="text-gray-200 mb-4">{product.description}</p>
+                    <div className="mb-2 text-gray-300">
+                        <span className="font-semibold">Color:</span>{" "}
+                        {product.color || <span className="italic text-gray-400">N/A</span>}
+                    </div>
+                    <div className="mb-4 text-gray-300">
+                        <span className="font-semibold">Size:</span>{" "}
+                        {product.size || <span className="italic text-gray-400">N/A</span>}
+                    </div>
                     {/*
                     <div className="mb-2 text-gray-300">
                         <span className="font-semibold">Category:</span>{" "}
