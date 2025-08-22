@@ -6,17 +6,22 @@ import FilterSidebar from "../components/FilterSidebar";
 import ProductGrid from "../components/ProductGrid";
 import SearchBar from "../components/SearchBar";
 import Pagination from "../components/Pagination";
-import { productService } from "../services/productService";
+import { productService, colorService, sizeService } from "../services/productService";
+import type { Color, Size } from "../services/productService";
 import type { Product, Category } from "../types/product";
 
 const HomePage: React.FC = () => {
     const [categories, setCategories] = useState<Category[]>([]);
+    const [colors, setColors] = useState<Color[]>([]);
+    const [sizes, setSizes] = useState<Size[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [page, setPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [activeCategories, setActiveCategories] = useState<string[]>([]);
+    const [activeColors, setActiveColors] = useState<string[]>([]);
+    const [activeSizes, setActiveSizes] = useState<string[]>([]);
     const [query, setQuery] = useState<string>("");
     const [totalProducts, setTotalProducts] = useState<number>(0);
     const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
@@ -26,6 +31,14 @@ const HomePage: React.FC = () => {
             .getCategories()
             .then((c) => setCategories(c))
             .catch((e) => console.error("Failed to load categories", e));
+        colorService
+            .getColors()
+            .then((c) => setColors(c.map((x) => ({ id: (x as any)._id ?? (x as any).id, name: x.name }))))
+            .catch((e) => console.error("Failed to load colors", e));
+        sizeService
+            .getSizes()
+            .then((s) => setSizes(s.map((x) => ({ id: (x as any)._id ?? (x as any).id, name: x.name }))))
+            .catch((e) => console.error("Failed to load sizes", e));
 
         // initial load
         fetchProducts(1);
@@ -35,12 +48,20 @@ const HomePage: React.FC = () => {
     // Accept optional overrides for query/category to avoid async state bugs
     const fetchProducts = async (
         p = 1,
-        opts?: { query?: string; category?: string[]; sort?: "newest" | "oldest" }
+        opts?: {
+            query?: string;
+            category?: string[];
+            color?: string[];
+            size?: string[];
+            sort?: "newest" | "oldest";
+        }
     ) => {
         setLoading(true);
         setError(null);
         const q = opts?.query !== undefined ? opts.query : query;
         const cats = opts?.category !== undefined ? opts.category : activeCategories;
+        const cols = opts?.color !== undefined ? opts.color : activeColors;
+        const sizs = opts?.size !== undefined ? opts.size : activeSizes;
         const sort = opts?.sort !== undefined ? opts.sort : sortOrder;
         try {
             if (q.trim()) {
@@ -48,8 +69,12 @@ const HomePage: React.FC = () => {
                 setProducts(results);
                 setPage(1);
                 setTotalPages(1);
-            } else if (cats && cats.length > 0) {
-                const results = await productService.filterProducts({ category: cats });
+            } else if ((cats && cats.length > 0) || (cols && cols.length > 0) || (sizs && sizs.length > 0)) {
+                const filterParams: Record<string, unknown> = {};
+                if (cats && cats.length > 0) filterParams.category = cats;
+                if (cols && cols.length > 0) filterParams.color = cols;
+                if (sizs && sizs.length > 0) filterParams.size = sizs;
+                const results = await productService.filterProducts(filterParams);
                 setProducts(results);
                 setPage(1);
                 setTotalPages(1);
@@ -70,9 +95,13 @@ const HomePage: React.FC = () => {
 
     const handleFilter = (filters: Record<string, unknown>) => {
         const cats = (filters.category as string[]) ?? [];
+        const cols = (filters.color as string[]) ?? [];
+        const sizs = (filters.size as string[]) ?? [];
         setQuery("");
         setActiveCategories(cats);
-        fetchProducts(1, { query: "", category: cats, sort: sortOrder });
+        setActiveColors(cols);
+        setActiveSizes(sizs);
+        fetchProducts(1, { query: "", category: cats, color: cols, size: sizs, sort: sortOrder });
     };
 
     const handleSearch = (q: string) => {
@@ -130,6 +159,8 @@ const HomePage: React.FC = () => {
                             )}
                             <FilterSidebar
                                 categories={categories}
+                                colors={colors}
+                                sizes={sizes}
                                 onFilter={handleFilter}
                             />
                         </aside>

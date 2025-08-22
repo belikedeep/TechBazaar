@@ -73,11 +73,10 @@ export async function searchProducts(q: string) {
 
 export async function filterProducts(filter: any) {
     const query: any = {};
+    // Category filter
     if (filter.category) {
-        // Support category as array or comma-separated string
         let cats = filter.category;
         if (typeof cats === "string") {
-            // Check for comma-separated values
             if (cats.includes(",")) {
                 cats = cats.split(",").map((c: string) => c.trim());
             }
@@ -88,6 +87,35 @@ export async function filterProducts(filter: any) {
             query.category = cats;
         }
     }
+    // Color filter
+    if (filter.color) {
+        let colors = filter.color;
+        if (typeof colors === "string") {
+            if (colors.includes(",")) {
+                colors = colors.split(",").map((c: string) => c.trim());
+            }
+        }
+        if (Array.isArray(colors)) {
+            query.color = { $in: colors };
+        } else {
+            query.color = colors;
+        }
+    }
+    // Size filter
+    if (filter.size) {
+        let sizes = filter.size;
+        if (typeof sizes === "string") {
+            if (sizes.includes(",")) {
+                sizes = sizes.split(",").map((s: string) => s.trim());
+            }
+        }
+        if (Array.isArray(sizes)) {
+            query.size = { $in: sizes };
+        } else {
+            query.size = sizes;
+        }
+    }
+    // Price filter
     if (filter.minPrice || filter.maxPrice) {
         query.price = {};
         if (filter.minPrice) query.price.$gte = Number(filter.minPrice);
