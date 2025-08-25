@@ -71,9 +71,9 @@ router.post("/colors", authenticateJWT, requireRole("admin"), async (req, res) =
         const { name } = req.body;
         if (!name) return res.status(400).json({ error: "Name required" });
         const color = await Color.create({ name });
-        res.json({ id: color._id, name: color.name });
+        return res.json({ id: color._id, name: color.name });
     } catch (e) {
-        res.status(400).json({ error: "Color already exists" });
+        return res.status(400).json({ error: "Color already exists" });
     }
 });
 
@@ -83,9 +83,9 @@ router.post("/sizes", authenticateJWT, requireRole("admin"), async (req, res) =>
         const { name } = req.body;
         if (!name) return res.status(400).json({ error: "Name required" });
         const size = await Size.create({ name });
-        res.json({ id: size._id, name: size.name });
+        return res.json({ id: size._id, name: size.name });
     } catch (e) {
-        res.status(400).json({ error: "Size already exists" });
+        return res.status(400).json({ error: "Size already exists" });
     }
 });
 
