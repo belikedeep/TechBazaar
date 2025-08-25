@@ -11,12 +11,14 @@ type Props = {
 
 const FormCheckbox: React.FC<Props> = ({ label, checked, onChange, type = "checkbox" }) => {
     return (
-        <label>
+        <label className="custom-checkbox-label">
             <input
+                className="custom-checkbox-input"
                 type={type}
                 checked={checked}
                 onChange={e => onChange(e.target.checked)}
             />
+            <span className="custom-checkbox-span"></span>
             {label}
         </label>
     );
