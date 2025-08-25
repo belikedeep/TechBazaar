@@ -37,19 +37,15 @@ const FilterSidebar: React.FC<Props> = ({ categories, colors, sizes, onFilter })
     ) => {
         let updated: string[];
         let setter: React.Dispatch<React.SetStateAction<string[]>>;
-        let key: string;
         if (type === "category") {
             updated = checked ? [...selectedCategories, id] : selectedCategories.filter(i => i !== id);
             setter = setSelectedCategories;
-            key = "category";
         } else if (type === "color") {
             updated = checked ? [...selectedColors, id] : selectedColors.filter(i => i !== id);
             setter = setSelectedColors;
-            key = "color";
         } else {
             updated = checked ? [...selectedSizes, id] : selectedSizes.filter(i => i !== id);
             setter = setSelectedSizes;
-            key = "size";
         }
         setter(updated);
         onFilter({
