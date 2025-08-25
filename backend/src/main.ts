@@ -72,7 +72,7 @@ async function startServer() {
 
     // Start server
     app.listen(PORT, () => {
-      console.log(`🚀 Server is running on http://localhost:${PORT}`);
+      console.log(`🚀 Server is running on http://localhost:${PORT} :)`);
       console.log(`📊 Health check available at http://localhost:${PORT}/health`);
     });
   } catch (error) {
